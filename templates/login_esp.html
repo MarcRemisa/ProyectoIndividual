@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{data.titulo}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% include 'header.html' %}
+        <div class="mi-div4">
+            <h1 class="texto">{{data.login2}}</h1>
+            <div class="register">
+                <p class="texto5">{{data.nombre}}</p>
+                <input class="escribirtexto" type="nombre">
+                <p class="texto4">{{data.contraseña}}</p>
+                <input class="escribirtexto" type="contraseña">
+                <p class="texto6">{{data.olvidadoContraseña}}</p>
+                <img class="imagengoogle" src="{{ url_for('static', filename='img/google-png.png') }}" alt="Mi Imagen">   
+                <p class="enviar">{{data.enviar}}</p>
+            </div>
+        </div>
+
+    {% include 'footer.html' %}
+</body>
+</html>

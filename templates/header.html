@@ -1,0 +1,26 @@
+<header>
+    <div class="mi-div">
+        <a href="{{url_for('pagina1_esp')}}">
+            <img class="imagen1" src="{{ url_for('static', filename='img/logo-fruta.png') }}" alt="Mi Imagen">
+        </a>
+        <nav>
+            <a class="mi-div2" href="{{ url_for('registro_esp') }}">{{data.registro}}</a>
+            <a class="mi-div2" href="#">{{data.quieneSomos}}</a>
+            <a class="mi-div2" href="#">{{data.contacto}}</a>
+            <div class="flex">
+                <div>
+                    <img class="imagenidioma" src="{{ url_for('static', filename='img/bandera-esp.png') }}" alt="Mi Imagen">
+                </div>
+                <div>
+                    <img class="imagenidioma" src="{{ url_for('static', filename='img/bandera-cat.png') }}" alt="Mi Imagen">
+                </div>
+                <div>
+                    <img class="imagenidioma" src="{{ url_for('static', filename='img/bandera-eng.png') }}" alt="Mi Imagen">                
+                </div>
+            </div>
+        </nav>
+        <div class="mi-div3">
+            <a href="{{ url_for('login_esp') }}">{{data.login}}</a>
+        </div>
+    </div>
+</header>

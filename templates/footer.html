@@ -1,0 +1,29 @@
+<footer>
+    <div>
+        <img class="imagenfooter" src="{{ url_for('static', filename='img/nombre-png.png') }}" alt="Mi Imagen">
+        <h1 class="texto3">{{data.copyright}}</h1>
+        <p class="texto3">{{data.privacidad}}</p>
+        <div class="footer-lists">
+            <ul class="footer-list">
+                <h1 class="texto3">{{data.sobreNosotros}}</h1>
+                <li class="texto3">{{data.contacto}}</li>
+                <li class="texto3">{{data.quieneSomos}}</li>
+                <li class="texto3">{{data.dondeEstamos2}}</li>
+            </ul>
+
+            <ul class="footer-list">
+                <h1 class="texto3">{{data.escuelas}}</h1>
+                <li class="texto3">{{data.tuEscuela}}</li>
+                <li class="texto3">{{data.escuelas}}</li>
+            </ul>
+
+            <ul class="footer-list">
+                <h1 class="texto3">{{data.informacion}}</h1>
+                <li class="texto3">{{data.avisoLegal}}</li>
+                <li class="texto3">{{data.politicaPrivacidad}}</li>
+                <li class="texto3">{{data.politicaCookies}}</li>
+                <li class="texto3">{{data.proteccionDatos}}</li>
+            </ul>
+        </div>
+    </div>
+</footer>
