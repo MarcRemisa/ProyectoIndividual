@@ -105,5 +105,44 @@ def login_esp():
     }
     return render_template('login_esp.html', data=data)
 
+@app.route('/quienesSomos')
+def quienesSomos():
+    data={
+        'titulo':'TAVIT',
+        'registro':'Regsitro',
+        'quieneSomos':'Quienes Somos',
+        'contacto':'Contacto',
+        'idiomaEs':'ES',
+        'idiomaCa':'CA',
+        'idiomaEn':'EN',
+        'login':'LOGIN / REGISTER',
+        'quienesSomos2' : 'QUIENES SOMOS',
+        'informacion1' : 'Somos una escuela homologada por enseñanza para niños y niñas hasta los 3 años.',
+        'informacion2' : 'La escuela esta abierta de',
+        'informacion3' : 'Lunes',
+        'informacion4' : 'a',
+        'informacion5' : 'Viernes',
+        'informacion6' : 'de',
+        'informacion7' : '7:30',
+        'informacion8' : '18:00',
+        'informacion9' : 'Si quiere hacer que su hijo/hija pertenezca a esta escuela, pulse en',
+        'informacion10' : 'Registro',
+        'informacion11' : 'o',
+        'informacion12' : 'pulse aquí',
+        
+        'copyright' : '© 2023',
+        'privacidad' : 'Privacy — Terms',
+        'sobreNosotros' : 'Sobre Nosotros',
+        'dondeEstamos' : 'Donde Estamos',
+        'escuelas' : 'Escuelas',
+        'tuEscuela' : 'Tu escuela',
+        'informacion' : 'Informacion',
+        'avisoLegal' : 'Aviso Legal',
+        'politicaPrivacidad' : 'Politica de Privacidad',
+        'politicaCookies' : 'Politica de Cookies',
+        'proteccionDatos' : 'Proteccion de Datos',
+    }
+    return render_template('quienesSomos_esp.html', data=data)
+
 if __name__ == '__main__':
     app.run(debug=True,port=5000)
