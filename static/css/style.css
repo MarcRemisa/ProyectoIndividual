@@ -72,6 +72,13 @@ nav {
     display: flex;
 }
 
+.mydiv{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
 .mi-div2 {
     background-color: #9F0000;
     color: white;
@@ -124,6 +131,12 @@ body {
     font-size: 27px;
 }
 
+.texto2_2{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: 27px;
+}
+
 .texto3 {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
@@ -150,6 +163,18 @@ body {
     color: rgb(0, 72, 255);
 }
 
+.texto7{
+    font-family: 'Comfortaa', sans-serif;
+    text-align: center;
+    font-size: 12px;
+    padding-bottom: 10px;
+}
+
+.textolink{
+    text-decoration: none;
+    color: black;
+}
+
 .escribirtexto{
     border-radius: 5px;
 }
@@ -169,7 +194,6 @@ body {
     border-radius: 5px;
     font-size: 10px;
 }
-
 
 .register{
     background-color: white;
