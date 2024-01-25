@@ -80,6 +80,7 @@ def login_esp():
         'idiomaEn':'EN',
         'login':'LOGIN / REGISTER',
         'login2' : 'LOGIN',
+        'registrado' : 'No te has registrado todavia?',
         'nombre' : 'Nombre de Usuario o Correo Electronico',
         'contraseña' : 'Contraseña',
         'olvidadoContraseña' : 'He olvidado mi contraseña',
@@ -97,6 +98,40 @@ def login_esp():
         'proteccionDatos' : 'Proteccion de Datos',
     }
     return render_template('login_esp.html', data=data)
+
+@app.route('/register_esp')
+def register_esp():
+    data={
+        'titulo':'TAVIT',
+        'registro':'Regsitro',
+        'quieneSomos':'Quienes Somos',
+        'contacto':'Contacto',
+        'idiomaEs':'ES',
+        'idiomaCa':'CA',
+        'idiomaEn':'EN',
+        'login':'LOGIN / REGISTER',
+        'register' : 'REGISTER',
+        'cuenta' : 'Ya tienes una cuenta?',
+        'nombre' : 'Nombre',
+        'apellido' : 'Apellido',
+        'nombreUsuario' : 'Nombre de Usuario',
+        'correo' : 'Correo Electronico',
+        'contraseña' : 'Contraseña',
+        'repiteContraseña' : 'Repite Contraseña',
+        'enviar' : 'ENVIAR',
+        'copyright' : '© 2023',
+        'privacidad' : 'Privacy — Terms',
+        'sobreNosotros' : 'Sobre Nosotros',
+        'dondeEstamos2' : 'Donde Estamos',
+        'escuelas' : 'Escuelas',
+        'tuEscuela' : 'Tu escuela',
+        'informacion' : 'Informacion',
+        'avisoLegal' : 'Aviso Legal',
+        'politicaPrivacidad' : 'Politica de Privacidad',
+        'politicaCookies' : 'Politica de Cookies',
+        'proteccionDatos' : 'Proteccion de Datos',
+    }
+    return render_template('register_esp.html', data=data)
 
 @app.route('/quienesSomos')
 def quienesSomos():

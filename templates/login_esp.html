@@ -10,8 +10,7 @@
 <body>
     {% include 'header.html' %}
         <h1 class="texto">{{data.login2}}</h1>
-        <h2 class="texto7">No te has registrado todavia?</h2>
-        <link rel="stylesheet" href="">
+        <a class="texto7" href="{{ url_for('register_esp')}}">{{data.registrado}}</a>
         <div class="register">
             <p class="texto5">{{data.nombre}}</p>
             <input class="escribirtexto" type="nombre">
@@ -19,7 +18,7 @@
             <input class="escribirtexto" type="contraseña">
             <p class="texto6">{{data.olvidadoContraseña}}</p>
             <img class="imagengoogle" src="{{ url_for('static', filename='img/google-png.png') }}" alt="Mi Imagen">   
-            <p class="enviar">{{data.enviar}}</p>
+            <button class="enviar">{{data.enviar}}</button>
         </div>
         
     {% include 'footer.html' %}
