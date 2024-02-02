@@ -6,9 +6,9 @@
         <div class="footer-lists">
             <ul class="footer-list">
                 <h1 class="texto3">{{data.sobreNosotros}}</h1>
-                <li class="texto3">{{data.contacto}}</li>
-                <li class="texto3">{{data.quieneSomos}}</li>
-                <li class="texto3">{{data.dondeEstamos2}}</li>
+                <a class="texto3" href="{{ url_for('quienesSomos_esp')}}"><li>{{data.contacto}}</li></a>
+                <a class="texto3" href="{{ url_for('quienesSomos_esp')}}"><li>{{data.quieneSomos}}</li></a>
+                <a class="texto3" href="{{ url_for('pagina1_esp') }}"><li>{{data.dondeEstamos2}}</li></a>
             </ul>
 
             <ul class="footer-list">
@@ -19,10 +19,10 @@
 
             <ul class="footer-list">
                 <h1 class="texto3">{{data.informacion}}</h1>
-                <li class="texto3">{{data.avisoLegal}}</li>
-                <li class="texto3">{{data.politicaPrivacidad}}</li>
-                <li class="texto3">{{data.politicaCookies}}</li>
-                <li class="texto3">{{data.proteccionDatos}}</li>
+                <a class="texto3" href="{{ url_for('avisolegal_esp') }}"><li>{{data.avisoLegal}}</li></a>
+                <a class="texto3" href="{{ url_for('politicaPrivacidad_esp') }}"><li>{{data.politicaPrivacidad}}</li></a>
+                <a class="texto3" href="{{ url_for('politicaCookies_esp') }}"><li>{{data.politicaCookies}}</li></a>
+                <a class="texto3" href="{{ url_for('proteccionDatos_esp')}}"><li>{{data.proteccionDatos}}</li></a>
             </ul>
         </div>
     </div>

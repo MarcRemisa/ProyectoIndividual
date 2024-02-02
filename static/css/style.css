@@ -61,18 +61,31 @@ header {
     padding-top: 10px;
 }
 
-.imagenflecha_1{
-    width: 50px;
-    height: 50px;
-    padding-top: 180px;
-    display: flex;
+.imagen-logos{
+    width: 100px;
+    height: 100px;
 }
 
-.imagenflecha_2{
+.imagenflecha_1 {
     width: 50px;
     height: 50px;
-    padding-left: 93%;
-    padding-bottom: 100px;
+}
+
+.imagenflecha_2 {
+    width: 50px;
+    height: 50px;
+}
+
+.imagen_calendario{
+    display: flex;
+    height: 400px;
+    width: 40%;
+    margin: auto;
+    transition: opacity 0.3s ease;
+}
+
+.imagen_calendario:hover{
+    opacity: 0.8;
 }
 
 .imagenfooter {
@@ -131,11 +144,14 @@ nav {
     margin-top: 10px;
 }
 
-.div-carrusel{
+.div-carrusel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: white;
     border-radius: 15px;
-    height: 400px;
-    width: 50%;
+    height: 500px;
+    width: 90%;
     margin: auto;
     margin-top: 10px;
     padding-bottom: 10px;
@@ -152,6 +168,12 @@ nav {
     width: 50%;
     display: inline-block;
     box-sizing: border-box;
+}
+
+.div-imagenes-logos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .contenedor{
@@ -184,6 +206,8 @@ body {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     margin-bottom: 10px;
+    text-decoration: none;
+    color: black;
 }
 
 .texto4{
@@ -213,6 +237,15 @@ body {
     padding-bottom: 10px;
     text-decoration: none;
     color: black;
+}
+
+.textoInformacion{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.textoInformacion_2{
+    font-size: 20px;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 .textolink{

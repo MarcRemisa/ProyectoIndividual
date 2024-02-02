@@ -23,9 +23,13 @@
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2981.648306779668!2d2.3574667759318344!3d41.64173277126877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4c93f3379da83%3A0x91124508f221eb6f!2zVMOgdml0!5e0!3m2!1ses!2ses!4v1705679746445!5m2!1ses!2ses" width="50%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
     <h1 class="texto">{{data.contacto2}}</h1>
-    <img src="" alt="">
+    <div class="div-imagenes-logos">
+        <img class="imagen-logos" src="{{ url_for('static', filename='img/facebook.png') }}" alt="">
+    </div>
     <p class="texto2_2">{{data.facebook}}</p>
-    <img src="" alt="">
+    <div class="div-imagenes-logos">
+        <img class="imagen-logos" src="{{ url_for('static', filename='img/gmail.png') }}" alt="">
+    </div>
     <p class="texto2_2">{{data.gmail}}</p>
     {% include 'footer.html' %}
 </body>
