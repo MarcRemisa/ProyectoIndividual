@@ -11,27 +11,29 @@
     {% include 'header.html' %}
     
     <h1 class="texto">{{data.registro2}}</h1>
-    <div class="register">
-        <p class="texto4">{{data.info}}</p>
-        <p class="texto4">{{data.nombre}}</p>
-        <input class="escribirtexto" type="nombre">
-        <p class="texto4">{{data.apellido}}</p>
-        <input class="escribirtexto" type="apellido">
-        <p class="texto4">{{data.correo}}</p>
-        <input class="escribirtexto" type="correo">
-        <p class="texto4">{{data.domicilio}}</p>
-        <input class="escribirtexto" type="domicilio">
-        <p class="texto4">{{data.telefono}}</p>
-        <input class="escribirtexto" type="telefono">
-        <p class="texto4">{{data.info2}}</p>
-        <p class="texto4">{{data.nombreHijo}}</p>
-        <input class="escribirtexto" type="nombreHijo">
-        <p class="texto4">{{data.apellidoHijo}}</p>
-        <input class="escribirtexto" type="apellidoHijo">
-        <p class="texto4">{{data.edad}}</p>
-        <input class="escribirtexto" type="edad">
-        <button class="enviar">{{data.enviar}}</button>
-    </div>
+    <form method="POST" action="/registro_esp">
+        <div class="register">
+            <p class="texto4">{{data.info}}</p>
+            <p class="texto4">{{data.nombre}}</p>
+            <input class="escribirtexto" type="text" name="nombre" required>
+            <p class="texto4">{{data.apellido}}</p>
+            <input class="escribirtexto" type="text" name="apellido" required>
+            <p class="texto4">{{data.correo}}</p>
+            <input class="escribirtexto" type="text" name="correo" required>
+            <p class="texto4">{{data.domicilio}}</p>
+            <input class="escribirtexto" type="text" name="domicilio" required>
+            <p class="texto4">{{data.telefono}}</p>
+            <input class="escribirtexto" type="text" name="telefono" minlength="9" maxlength="9" required>
+            <p class="texto4">{{data.info2}}</p>
+            <p class="texto4">{{data.nombreHijo}}</p>
+            <input class="escribirtexto" type="text" name="nombreHijo" required>
+            <p class="texto4">{{data.apellidoHijo}}</p>
+            <input class="escribirtexto" type="text" name="apellidoHijo" required>
+            <p class="texto4">{{data.edad}}</p>
+            <input class="escribirtexto" type="text" name="edad" required>
+            <button class="enviar">{{data.enviar}}</button>
+        </div>
+    </form>
 </body>
     {% include 'footer.html' %}
 </html>

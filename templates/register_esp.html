@@ -3,39 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{data.titulo}}</title>
+    <title>{{ data.titulo }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap" rel="stylesheet">
 </head>
 <body>
     {% include 'header.html' %}
-        <h1 class="texto">{{data.register}}</h1>
-        <a class="texto7" href="{{ url_for('login_esp')}}">{{data.cuenta}}</a>
-        <div class="register">
+    <h1 class="texto">{{ data.register }}</h1>
+    <a class="texto7" href="{{ url_for('login_esp') }}">{{ data.cuenta }}</a>
+    <div class="register">
+        <form method="POST" action="{{ url_for('register_esp') }}">
             <div class="contenedor">
                 <div class="div-izq">
-                    <p class="texto5">{{data.nombre}}</p>
-                    <input class="escribirtexto" type="nombre">
+                    <p class="texto5">{{ data.nombre }}</p>
+                    <input class="escribirtexto" type="text" name="nombre" required>
                 </div>
                 <div class="div-der">
-                    <p class="texto5">{{data.apellido}}</p>
-                    <input class="escribirtexto" type="apellido">
+                    <p class="texto5">{{ data.apellido }}</p>
+                    <input class="escribirtexto" type="text" name="apellido" required>
                 </div>
             </div>
-            <p class="texto5">{{data.nombreUsuario}}</p>
-            <input class="escribirtexto" type="nombreUsuario">
-            <p class="texto4">{{data.correo}}</p>
-            <input class="escribirtexto" type="correo">
-            <p class="texto4">{{data.contraseña}}</p>
-            <input class="escribirtexto" type="contraseña">
-            <p class="texto4">{{data.repiteContraseña}}</p>
-            <input class="escribirtexto" type="repiteContraseña"><br><br>
-            <img class="imagengoogle" src="{{ url_for('static', filename='img/google-png.png') }}" alt="Mi Imagen">   
-            <button class="enviar">{{data.enviar}}</button>
-        </div>
-
-
-
-
+            <p class="texto5">{{ data.nombreUsuario }}</p>
+            <input class="escribirtexto" type="text" name="nombreUsuario" required>
+            <p class="texto4">{{ data.correo }}</p>
+            <input class="escribirtexto" type="email" name="correo" required>
+            <p class="texto4">{{ data.contraseña }}</p>
+            <input class="escribirtexto" type="password" name="contraseña" required>
+            <p class="texto4">{{ data.repiteContraseña }}</p>
+            <input class="escribirtexto" type="password" name="repiteContraseña" required><br><br>
+            <img class="imagengoogle" src="{{ url_for('static', filename='img/google-png.png') }}" alt="Mi Imagen">
+            <button class="enviar">{{ data.enviar }}</button>
+        </form>
+    </div>
     {% include 'footer.html' %}
 </body>
+</html>

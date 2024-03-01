@@ -176,6 +176,27 @@ nav {
     align-items: center;
 }
 
+.div-volver a{
+    background-color: #0A7A00;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 10px;
+    text-decoration: none;
+    width: 20%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
 .contenedor{
     width: 100%;
     display: flex;
@@ -239,6 +260,14 @@ body {
     color: black;
 }
 
+.textoCorrecto{
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 40px;
+    color: #0A7A00;
+    text-align: center;
+    padding-top: 220px;
+}
+
 .textoInformacion{
     font-family: 'Ubuntu', sans-serif;
 }
@@ -253,8 +282,19 @@ body {
     color: black;
 }
 
+.textoerror{
+    color: red;
+    font-size: 10px;
+}
+
 .escribirtexto{
     border-radius: 5px;
+}
+
+.escribirtexto_rojo{
+    border-radius: 5px;
+    border-color: red;
+    background-color: rgb(255, 163, 163);
 }
 
 .enviar {

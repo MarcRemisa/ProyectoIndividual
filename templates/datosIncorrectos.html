@@ -14,9 +14,11 @@
     <div class="register">
         <form method="POST" action="{{ url_for('login_esp') }}">
             <p class="texto5">{{ data.nombre }}</p>
-            <input class="escribirtexto" type="text" name="nombreUsuario" required>
+            <p class="textoerror">{{data.errorNombre}}</p>
+            <input class="escribirtexto_rojo" type="text" name="nombreUsuario">
             <p class="texto4">{{ data.contraseña }}</p>
-            <input class="escribirtexto" type="password" name="contraseña" required>
+            <p class="textoerror">{{data.errorContraseña}}</p>
+            <input class="escribirtexto_rojo" type="password" name="contraseña">
             <p class="texto6">{{ data.olvidadoContraseña }}</p>
             <img class="imagengoogle" src="{{ url_for('static', filename='img/google-png.png') }}" alt="Mi Imagen">
             <button class="enviar">{{ data.enviar }}</button>

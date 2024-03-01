@@ -1,4 +1,16 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect, session
+import mysql.connector
+
+def base_datos():
+    connection = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='marcremisa10',
+        database='tavit'
+
+    )
+    return connection
+
 
 app = Flask(__name__)
 
@@ -26,13 +38,84 @@ def pagina1_esp():
         'avisoLegal' : 'Aviso Legal',
         'politicaPrivacidad' : 'Politica de Privacidad',
         'politicaCookies' : 'Politica de Cookies',
-        'proteccionDatos' : 'Proteccion de Datos',
-        
+        'proteccionDatos' : 'Proteccion de Datos'
     }
+    
     return render_template('pagina1-esp.html',data=data)
 
-@app.route('/registro_esp')
+@app.route('/correcto')
+def correcto():
+    data={
+        'correcto':'Datos Guardados Correctamente',
+        'atras':'Volver a la pagina principal'
+    }
+    return render_template('correcto.html', data=data)
+
+@app.route('/registro_esp', methods=['GET', 'POST'])
 def registro_esp():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        correo = request.form['correo']
+        domicilio = request.form['domicilio']
+        telefono = request.form['telefono']
+        nombre_hijo = request.form['nombreHijo']
+        apellido_hijo = request.form['apellidoHijo']
+        edad_hijo = request.form['edad']
+
+        conn = base_datos()
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO registro (nombre, apellido, correo_electronico, domicilio, telefono, nombre_hijo, apellido_hijo, edad_hijo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (nombre, apellido, correo, domicilio, telefono, nombre_hijo, apellido_hijo, edad_hijo))
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for('correcto'))
+    else:
+        data={
+            'titulo':'TAVIT',
+            'registro':'Regsitro',
+            'quieneSomos':'Quienes Somos',
+            'contacto':'Contacto',
+            'idiomaEs':'ES',
+            'idiomaCa':'CA',
+            'idiomaEn':'EN',
+            'login':'LOGIN / REGISTER',
+            'registro2' : 'REGISTRO',
+            'info' : 'INFORMACION DEL TUTOR LEGAL',
+            'nombre' : 'Nombre',
+            'apellido' : 'Apellido',
+            'correo' : 'Correo Electronico',
+            'domicilio' : 'Domicilio',
+            'telefono' : 'Telefono', 
+            'info2' : 'INFORMACION DEL HIJO',
+            'nombreHijo' : 'Nombre',
+            'apellidoHijo' : 'Apellido',
+            'edad' : 'Edad',
+            'enviar' : 'ENVIAR',
+            'copyright' : '© 2023',
+            'privacidad' : 'Privacy — Terms',
+            'sobreNosotros' : 'Sobre Nosotros',
+            'dondeEstamos2' : 'Donde Estamos',
+            'escuelas' : 'Escuelas',
+            'tuEscuela' : 'Tu escuela',
+            'informacion' : 'Informacion',
+            'avisoLegal' : 'Aviso Legal',
+            'politicaPrivacidad' : 'Politica de Privacidad',
+            'politicaCookies' : 'Politica de Cookies',
+            'proteccionDatos' : 'Proteccion de Datos',
+        }
+    return render_template('registro-esp.html',data=data)
+
+@app.route('/datosCorrectos')
+def datosCorrectos():
+    data={
+        'datosCorrectos':'Datos correctos',
+        'pagina1':'Ves pagina principal'
+    }
+    return render_template('datosCorrectos.html', data=data)
+
+@app.route('/datosIncorrectos')
+def datosIncorrectos():
     data={
         'titulo':'TAVIT',
         'registro':'Regsitro',
@@ -42,17 +125,11 @@ def registro_esp():
         'idiomaCa':'CA',
         'idiomaEn':'EN',
         'login':'LOGIN / REGISTER',
-        'registro2' : 'REGISTRO',
-        'info' : 'INFORMACION DEL TUTOR LEGAL',
-        'nombre' : 'Nombre',
-        'apellido' : 'Apellido',
-        'correo' : 'Correo Electronico',
-        'domicilio' : 'Domicilio',
-        'telefono' : 'Telefono', 
-        'info2' : 'INFORMACION DEL HIJO',
-        'nombreHijo' : 'Nombre',
-        'apellidoHijo' : 'Apellido',
-        'edad' : 'Edad',
+        'login2' : 'LOGIN',
+        'registrado' : 'No te has registrado todavia?',
+        'nombre' : 'Nombre de Usuario',
+        'contraseña' : 'Contraseña',
+        'olvidadoContraseña' : 'He olvidado mi contraseña',
         'enviar' : 'ENVIAR',
         'copyright' : '© 2023',
         'privacidad' : 'Privacy — Terms',
@@ -65,11 +142,32 @@ def registro_esp():
         'politicaPrivacidad' : 'Politica de Privacidad',
         'politicaCookies' : 'Politica de Cookies',
         'proteccionDatos' : 'Proteccion de Datos',
+        'errorNombre' : 'El nombre es incorrecto',
+        'errorContraseña' : 'La contraseña es incorrecta'
     }
-    return render_template('registro-esp.html',data=data)
+    return render_template('datosIncorrectos.html', data=data)
 
-@app.route('/login_esp')
+@app.route('/login_esp' ,methods=['GET', 'POST'])
 def login_esp():
+    if request.method == 'POST':
+        nombre_usuario = request.form['nombreUsuario']
+        contraseña = request.form['contraseña']
+        
+        conn = base_datos()
+        cursor = conn.cursor()
+        
+        consulta = "SELECT * FROM register WHERE NombreUsuario = %s AND Contraseña = %s"
+        valores = (nombre_usuario, contraseña)
+        cursor.execute(consulta, valores)
+        
+        usuario = cursor.fetchone()
+        
+        conn.close()
+        
+        if usuario:
+            return redirect(url_for('datosCorrectos'))
+        else:
+            return redirect(url_for('datosIncorrectos'))
     data={
         'titulo':'TAVIT',
         'registro':'Regsitro',
@@ -99,8 +197,35 @@ def login_esp():
     }
     return render_template('login_esp.html', data=data)
 
-@app.route('/register_esp')
+@app.route('/cuentaCreada')
+def cuentaCreada():
+    data={
+        'cuentaCreada':'La cuenta ha sido creada',
+        'registro':'Registro'
+    }
+    return render_template('cuentaCreada.html', data=data)
+
+@app.route('/register_esp' ,methods=['GET', 'POST'])
 def register_esp():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        nombre_usuario = request.form['nombreUsuario']
+        correo = request.form['correo']
+        contraseña = request.form['contraseña']
+        repite_contraseña = request.form['repiteContraseña']
+        
+        conn = base_datos()
+        cursor = conn.cursor()
+        
+        consulta = "INSERT INTO register (Nombre, Apellido, NombreUsuario, CorreoElectronico, Contraseña, RepiteContraseña) VALUES (%s, %s, %s, %s, %s, %s)"
+        valores = (nombre, apellido, nombre_usuario, correo, contraseña, repite_contraseña)
+        cursor.execute(consulta, valores)
+        
+        conn.commit()
+        conn.close()
+        
+        return redirect(url_for('cuentaCreada'))
     data={
         'titulo':'TAVIT',
         'registro':'Regsitro',
