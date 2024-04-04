@@ -4,18 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{data.titulo}}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400..900&family=Nerko+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap" rel="stylesheet">
 </head>
 <body>
     {% include 'header.html' %}
 
     <img class="imagen2" src="{{ url_for('static', filename='img/nombre-png.png') }}" alt="Mi Imagen">
-    <div class="div-carrusel">
-        <img class="imagenflecha_1" src="{{ url_for('static', filename='img/flecha-izquierda.png') }}" alt="">
-        <img class="imagenflecha_2" src="{{ url_for('static', filename='img/flecha-correcta.png') }}" alt="">
-        <!-- <img class="imagen-carrusel" src="{{ url_for('static', filename='img/foto1.jpg') }}" alt=""> -->
-    </div>   
+
+    <div class="slider-container">
+        <div class="slider">
+            <div><img class="imagen-carrusel" src="{{ url_for('static', filename='img/foto1.jpg') }}" alt=""></div>
+            <div><img class="imagen-carrusel" src="{{ url_for('static', filename='img/foto2.jpg') }}" alt=""></div>
+            <div><img class="imagen-carrusel" src="{{ url_for('static', filename='img/foto3.jpg') }}" alt=""></div>
+            <div><img class="imagen-carrusel" src="{{ url_for('static', filename='img/foto4.jpg') }}" alt=""></div>
+        </div>
+    </div>
+
     <h1 class="texto">{{data.calendario}}</h1>
     
     <img class="imagen_calendario" src="{{ url_for('static', filename='img/calendario-imagen.png')}}" alt="">
@@ -27,5 +37,20 @@
     </div>
     
     {% include 'footer.html' %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.slider').slick({
+                autoplay: true,
+                autoplaySpeed: 2000,
+                arrows: true,
+                prevArrow: $('.imagenflecha_1'),
+                nextArrow: $('.imagenflecha_2'),
+                dots: false,
+            });
+        });
+    </script>
 </body>
 </html>
