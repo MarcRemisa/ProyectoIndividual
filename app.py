@@ -7,15 +7,16 @@ def base_datos():
         user='root',
         password='marcremisa10',
         database='tavit'
-
     )
     return connection
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'tu_clave_secreta_aqui'
 
 @app.route('/')
 def pagina1_esp():
+    nombre_usuario = session.get('nombre_usuario')
     data={
         'titulo':'TAVIT',
         'registro':'Regsitro',
@@ -24,6 +25,7 @@ def pagina1_esp():
         'idiomaEs':'ES',
         'idiomaCa':'CA',
         'idiomaEn':'EN',
+        'nombre_usuario': nombre_usuario,
         'login':'LOGIN / REGISTER',
         'calendario':'CALENDARIO',
         'dondeEstamos':'DONDE ESTAMOS',
@@ -43,6 +45,11 @@ def pagina1_esp():
     
     return render_template('pagina1-esp.html',data=data)
 
+@app.route('/logout')
+def logout():
+    session.pop('nombre_usuario', None)
+    return redirect(url_for('pagina1_esp'))
+
 @app.route('/correcto')
 def correcto():
     data={
@@ -53,6 +60,7 @@ def correcto():
 
 @app.route('/registro_esp', methods=['GET', 'POST'])
 def registro_esp():
+    nombre_usuario = session.get('nombre_usuario')
     if request.method == 'POST':
         nombre = request.form['nombre']
         apellido = request.form['apellido']
@@ -79,6 +87,7 @@ def registro_esp():
             'idiomaEs':'ES',
             'idiomaCa':'CA',
             'idiomaEn':'EN',
+            'nombre_usuario': nombre_usuario,
             'login':'LOGIN / REGISTER',
             'registro2' : 'REGISTRO',
             'info' : 'INFORMACION DEL TUTOR LEGAL',
@@ -108,9 +117,11 @@ def registro_esp():
 
 @app.route('/datosCorrectos')
 def datosCorrectos():
+    nombre_usuario = session.get('nombre_usuario')
     data={
         'datosCorrectos':'Datos correctos',
-        'pagina1':'Ves pagina principal'
+        'pagina1':'Ves pagina principal',
+        'nombre_usuario': nombre_usuario
     }
     return render_template('datosCorrectos.html', data=data)
 
@@ -147,7 +158,7 @@ def datosIncorrectos():
     }
     return render_template('datosIncorrectos.html', data=data)
 
-@app.route('/login_esp' ,methods=['GET', 'POST'])
+@app.route('/login_esp', methods=['GET', 'POST'])
 def login_esp():
     if request.method == 'POST':
         nombre_usuario = request.form['nombreUsuario']
@@ -165,37 +176,68 @@ def login_esp():
         conn.close()
         
         if usuario:
+            session['nombre_usuario'] = nombre_usuario
             return redirect(url_for('datosCorrectos'))
         else:
-            return redirect(url_for('datosIncorrectos'))
-    data={
-        'titulo':'TAVIT',
-        'registro':'Regsitro',
-        'quieneSomos':'Quienes Somos',
-        'contacto':'Contacto',
-        'idiomaEs':'ES',
-        'idiomaCa':'CA',
-        'idiomaEn':'EN',
-        'login':'LOGIN / REGISTER',
-        'login2' : 'LOGIN',
-        'registrado' : 'No te has registrado todavia?',
-        'nombre' : 'Nombre de Usuario o Correo Electronico',
-        'contraseña' : 'Contraseña',
-        'olvidadoContraseña' : 'He olvidado mi contraseña',
-        'enviar' : 'ENVIAR',
-        'copyright' : '© 2023',
-        'privacidad' : 'Privacy — Terms',
-        'sobreNosotros' : 'Sobre Nosotros',
-        'dondeEstamos2' : 'Donde Estamos',
-        'escuelas' : 'Escuelas',
-        'tuEscuela' : 'Tu escuela',
-        'informacion' : 'Informacion',
-        'avisoLegal' : 'Aviso Legal',
-        'politicaPrivacidad' : 'Politica de Privacidad',
-        'politicaCookies' : 'Politica de Cookies',
-        'proteccionDatos' : 'Proteccion de Datos',
+            data = {
+                'error': 'Usuario o contraseña incorrectos.',
+                'titulo': 'TAVIT',
+                'registro': 'Registro',
+                'quieneSomos': 'Quiénes Somos',
+                'contacto': 'Contacto',
+                'idiomaEs': 'ES',
+                'idiomaCa': 'CA',
+                'idiomaEn': 'EN',
+                'login': 'LOGIN / REGISTER',
+                'login2': 'LOGIN',
+                'registrado': '¿No te has registrado todavía?',
+                'nombre': 'Nombre de Usuario o Correo Electrónico',
+                'contraseña': 'Contraseña',
+                'olvidadoContraseña': 'He olvidado mi contraseña',
+                'enviar': 'ENVIAR',
+                'copyright': '© 2023',
+                'privacidad': 'Privacidad — Términos',
+                'sobreNosotros': 'Sobre Nosotros',
+                'dondeEstamos2': 'Dónde Estamos',
+                'escuelas': 'Escuelas',
+                'tuEscuela': 'Tu Escuela',
+                'informacion': 'Información',
+                'avisoLegal': 'Aviso Legal',
+                'politicaPrivacidad': 'Política de Privacidad',
+                'politicaCookies': 'Política de Cookies',
+                'proteccionDatos': 'Protección de Datos',
+            }
+            return render_template('login_esp.html', data=data)
+    
+    data = {
+        'titulo': 'TAVIT',
+        'registro': 'Registro',
+        'quieneSomos': 'Quiénes Somos',
+        'contacto': 'Contacto',
+        'idiomaEs': 'ES',
+        'idiomaCa': 'CA',
+        'idiomaEn': 'EN',
+        'login': 'LOGIN / REGISTER',
+        'login2': 'LOGIN',
+        'registrado': '¿No te has registrado todavía?',
+        'nombre': 'Nombre de Usuario o Correo Electrónico',
+        'contraseña': 'Contraseña',
+        'olvidadoContraseña': 'He olvidado mi contraseña',
+        'enviar': 'ENVIAR',
+        'copyright': '© 2023',
+        'privacidad': 'Privacidad — Términos',
+        'sobreNosotros': 'Sobre Nosotros',
+        'dondeEstamos2': 'Dónde Estamos',
+        'escuelas': 'Escuelas',
+        'tuEscuela': 'Tu Escuela',
+        'informacion': 'Información',
+        'avisoLegal': 'Aviso Legal',
+        'politicaPrivacidad': 'Política de Privacidad',
+        'politicaCookies': 'Política de Cookies',
+        'proteccionDatos': 'Protección de Datos',
     }
     return render_template('login_esp.html', data=data)
+
 
 @app.route('/cuentaCreada')
 def cuentaCreada():
@@ -204,6 +246,47 @@ def cuentaCreada():
         'registro':'Registro'
     }
     return render_template('cuentaCreada.html', data=data)
+
+@app.route('/cambiar_contraseña', methods=['GET', 'POST'])
+def cambiar_contraseña():
+    if request.method == 'POST':
+        usuario = request.form['usuario']
+        nueva_contraseña = request.form['nueva_contraseña']
+        repetir_contraseña = request.form['repetir_contraseña']
+
+        conn = base_datos()
+        cursor = conn.cursor()
+        
+        consulta_usuario = "SELECT * FROM register WHERE NombreUsuario = %s"
+        cursor.execute(consulta_usuario, (usuario,))
+        usuario_existente = cursor.fetchone()
+
+        if usuario_existente:
+            consulta_update = "UPDATE register SET Contraseña = %s, RepiteContraseña = %s WHERE NombreUsuario = %s"
+            valores = (nueva_contraseña, repetir_contraseña, usuario)
+            cursor.execute(consulta_update, valores)
+            conn.commit()
+            conn.close()
+            return redirect(url_for('login_esp'))
+        else:
+            data = {
+                'error': 'El usuario no existe en la base de datos.',
+                'cambioContraseña': 'Cambio de Contraseña',
+                'usuarioContraseña': 'Usuario',
+                'nuevaContraseña': 'Nueva Contraseña',
+                'repetirNuevaContraseña' : 'Repita la nueva contraseña',
+                'cambiarContraseña': 'Cambiar Contraseña'
+            }
+            return render_template('cambiar_contraseña.html', data=data)
+    else:
+        data = {
+            'cambioContraseña': 'Cambio de Contraseña',
+            'usuarioContraseña': 'Usuario',
+            'nuevaContraseña': 'Nueva Contraseña',
+            'repetirNuevaContraseña' : 'Repita la nueva contraseña',
+            'cambiarContraseña': 'Cambiar Contraseña'
+        }
+        return render_template('cambiar_contraseña.html', data=data)
 
 @app.route('/register_esp' ,methods=['GET', 'POST'])
 def register_esp():
@@ -260,6 +343,7 @@ def register_esp():
 
 @app.route('/quienesSomos_esp')
 def quienesSomos_esp():
+    nombre_usuario = session.get('nombre_usuario')
     data={
         'titulo':'TAVIT',
         'registro':'Regsitro',
@@ -268,6 +352,7 @@ def quienesSomos_esp():
         'idiomaEs':'ES',
         'idiomaCa':'CA',
         'idiomaEn':'EN',
+        'nombre_usuario': nombre_usuario,
         'login':'LOGIN / REGISTER',
         'quienesSomos2' : 'QUIENES SOMOS',
         'informacion1' : 'Somos una escuela homologada por enseñanza para niños y niñas hasta los 3 años.',
@@ -305,6 +390,7 @@ def quienesSomos_esp():
 
 @app.route('/avisolegal_esp')
 def avisolegal_esp():
+    nombre_usuario = session.get('nombre_usuario')
     data={
         'titulo':'TAVIT',
         'registro':'Regsitro',
@@ -313,6 +399,7 @@ def avisolegal_esp():
         'idiomaEs':'ES',
         'idiomaCa':'CA',
         'idiomaEn':'EN',
+        'nombre_usuario': nombre_usuario,
         'login':'LOGIN / REGISTER',
         'avisolegal2' : 'Aviso Legal',
         'texto1' : 'Esta es una página web ficticia y el contenido aquí proporcionado es solo para fines educativos e ilustrativos. No se debe considerar como asesoramiento legal.',
@@ -342,6 +429,7 @@ def avisolegal_esp():
 
 @app.route('/politicaCookies_esp')
 def politicaCookies_esp():
+    nombre_usuario = session.get('nombre_usuario')
     data={
         'titulo':'TAVIT',
         'registro':'Regsitro',
@@ -350,6 +438,7 @@ def politicaCookies_esp():
         'idiomaEs':'ES',
         'idiomaCa':'CA',
         'idiomaEn':'EN',
+        'nombre_usuario': nombre_usuario,
         'login':'LOGIN / REGISTER',
         'cookies' : 'Politica de Cookies',
         'texto1' : 'Esta página web utiliza cookies para mejorar la experiencia del usuario. A continuación, se explica qué son las cookies, cómo las utilizamos y cómo puede gestionarlas.',
@@ -381,6 +470,7 @@ def politicaCookies_esp():
 
 @app.route('/politicaPrivacidad_esp')
 def politicaPrivacidad_esp():
+    nombre_usuario = session.get('nombre_usuario')
     data={
         'titulo':'TAVIT',
         'registro':'Regsitro',
@@ -389,6 +479,7 @@ def politicaPrivacidad_esp():
         'idiomaEs':'ES',
         'idiomaCa':'CA',
         'idiomaEn':'EN',
+        'nombre_usuario': nombre_usuario,
         'login':'LOGIN / REGISTER',
         'politicaPrivacidad' : 'Política de Privacidad',
         'texto1' : 'En Tavit, respetamos y protegemos la privacidad de nuestros usuarios. Esta Política de Privacidad describe cómo recopilamos, utilizamos y protegemos la información personal que usted nos proporciona a través de nuestro sitio web.',
@@ -422,6 +513,7 @@ def politicaPrivacidad_esp():
 
 @app.route('/proteccionDatos_esp')
 def proteccionDatos_esp():
+    nombre_usuario = session.get('nombre_usuario')
     data={
         'titulo':'TAVIT',
         'registro':'Regsitro',
@@ -430,6 +522,7 @@ def proteccionDatos_esp():
         'idiomaEs':'ES',
         'idiomaCa':'CA',
         'idiomaEn':'EN',
+        'nombre_usuario': nombre_usuario,
         'login':'LOGIN / REGISTER',
         'proteccionDatos2' : 'Política de Protección de Datos',
         'texto1' : 'En Tavit, nos tomamos muy en serio la protección de sus datos personales. Esta Política de Protección de Datos describe cómo recopilamos, utilizamos y protegemos su información personal cuando utiliza nuestros servicios.',

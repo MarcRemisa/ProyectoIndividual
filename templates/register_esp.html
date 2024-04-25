@@ -26,7 +26,7 @@
                     <input class="escribirtexto" type="text" name="apellido" required>
                 </div>
             </div>
-            <p class="texto5">{{ data.nombreUsuario }}</p>
+            <p class="texto4">{{ data.nombreUsuario }}</p>
             <input class="escribirtexto" type="text" name="nombreUsuario" required>
             <p class="texto4">{{ data.correo }}</p>
             <input class="escribirtexto" type="email" name="correo" required>
@@ -34,7 +34,7 @@
             <input id="passwordInput" class="escribirtexto" type="password" name="contraseña" required>
             <p class="texto4">{{ data.repiteContraseña }}</p>
             <input id="confirmPasswordInput" class="escribirtexto" type="password" name="repiteContraseña" required><br><br>
-            <img class="imagengoogle" src="{{ url_for('static', filename='img/google-png.png') }}" alt="Mi Imagen">
+            <!-- <img class="imagengoogle" src="{{ url_for('static', filename='img/google-png.png') }}" alt="Mi Imagen"> -->
             <button class="enviar" onclick="validatePasswords(event)">{{ data.enviar }}</button>
         </form>
         <p id="passwordError" style="display:none; color:red;">Las contraseñas no coinciden.</p>

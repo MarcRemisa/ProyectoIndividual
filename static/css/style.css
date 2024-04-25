@@ -163,6 +163,21 @@ nav {
     text-decoration: none;
 }
 
+.mi-div3_2 a {
+    background-color: #9F0000;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+
 .mi-div4{
     width: 50%;
     justify-content: flex-end;
@@ -283,6 +298,12 @@ nav {
     color: black;
 }
 
+.textoCambiarContraseña{
+    font-family: 'Sigmar One', sans-serif;
+    text-align: center;
+    padding-top: 50px;
+}
+
 .textoCorrecto{
     font-family: "Noto Sans TC", sans-serif;
     font-size: 40px;
@@ -305,9 +326,23 @@ nav {
     color: black;
 }
 
+.textolink2{
+    text-decoration: none;
+    color: rgb(0, 72, 255);
+}
+
+.textologin{
+    font-size: 20px;
+}
+
 .textoerror{
     color: red;
     font-size: 10px;
+}
+
+.textoerror2{
+    color: red;
+    font-size: 20px;
 }
 
 .escribirtexto{
@@ -346,6 +381,17 @@ nav {
     margin: auto;
     padding-bottom: 10px;
 }
+
+.register2 {
+    background-color: white;
+    border-radius: 44px;
+    text-align: center;
+    width: 500px;
+    margin: auto;
+    padding-bottom: 10px;
+    margin-top: -10px;
+}
+
 
 footer {
     background-color: white;
