@@ -12,7 +12,7 @@ def base_datos():
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'tu_clave_secreta_aqui'
+app.config['SECRET_KEY'] = 'marcremisa10'
 
 @app.route('/')
 def pagina1_esp():
@@ -191,7 +191,7 @@ def login_esp():
                 'login': 'LOGIN / REGISTER',
                 'login2': 'LOGIN',
                 'registrado': '¿No te has registrado todavía?',
-                'nombre': 'Nombre de Usuario o Correo Electrónico',
+                'nombre': 'Nombre de Usuario',
                 'contraseña': 'Contraseña',
                 'olvidadoContraseña': 'He olvidado mi contraseña',
                 'enviar': 'ENVIAR',
