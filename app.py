@@ -220,7 +220,7 @@ def login_esp():
         'login': 'LOGIN / REGISTER',
         'login2': 'LOGIN',
         'registrado': '¿No te has registrado todavía?',
-        'nombre': 'Nombre de Usuario o Correo Electrónico',
+        'nombre': 'Nombre de Usuario',
         'contraseña': 'Contraseña',
         'olvidadoContraseña': 'He olvidado mi contraseña',
         'enviar': 'ENVIAR',
