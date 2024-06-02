@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAVIT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+{% include 'header.html' %}
+
+
+
+<div class="contenido">
+    <h1 class="text-h1">{{data.onEstemC}}</h1>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5963.191186988716!2d2.35451561032749!3d41.64287199466732!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4c93f3379da83%3A0x91124508f221eb6f!2zVMOgdml0!5e0!3m2!1ses!2ses!4v1716910334147!5m2!1ses!2ses" width="1000" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+
+<div class="container">
+    <div class="info">
+        <h1 class="text-h1">{{data.detalls}}</h1>
+
+        <h2 class="text">{{data.direccio}}</h2>
+        <p class="text">{{data.nomDireccio}}</p>
+
+        <h2 class="text">{{data.horari}}</h2>
+        <p class="text">{{data.horaris}}</p>
+        <p class="text">{{data.horarisHora}}</p>
+
+        <h2 class="text">{{data.telefon}}</h2>
+        <p class="text">{{data.telefonNum}}</p>
+
+        <h2 class="text">{{data.email}}</h2>
+        <p class="text">{{data.emailNom}}</p>
+    </div>
+
+    <div class="formulario">
+        <h1 class="text-h1">{{data.Missatge}}</h1>
+    
+        <form method="post">
+            <label class="text" for="nombre">{{data.nom}}</label><br>
+            <input type="text" id="nombre" name="nombre" required><br>
+            
+            <label class="text" for="email">{{data.email2}}</label><br>
+            <input type="email" id="email" name="email" required><br>
+            
+            <label class="text" for="mensaje">{{data.MissatgeText}}</label><br>
+            <textarea id="mensaje" name="mensaje" rows="4" required></textarea><br>
+            
+            <input class="botonEnviar" type="submit" value="Enviar">
+        </form>
+    </div>
+</div>
+
+{% include 'footer.html' %}

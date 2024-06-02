@@ -1,34 +1,26 @@
-<header>
-    <div class="mi-div">
-        <a href="{{ url_for('pagina1_esp') }}">
-            <img class="imagen1" src="{{ url_for('static', filename='img/logo-fruta.png') }}" alt="Mi Imagen">
-        </a>
-        <nav>
-            <a class="mi-div2" href="{{ url_for('registro_esp') }}">{{ data.registro }}</a>
-            <a class="mi-div2" href="{{ url_for('quienesSomos_esp')}}">{{ data.quieneSomos }}</a>
-            <a class="mi-div2" href="{{ url_for('quienesSomos_esp')}}#seccion-contacto">{{ data.contacto }}</a>
-            <!-- <div class="flex"> -->
-                <!-- <div>
-                    <img class="imagenidioma" src="{{ url_for('static', filename='img/bandera-esp.png') }}" alt="Mi Imagen">
-                </div>
-                <div>
-                    <img class="imagenidioma" src="{{ url_for('static', filename='img/bandera-cat.png') }}" alt="Mi Imagen">
-                </div>
-                <div>
-                    <img class="imagenidioma" src="{{ url_for('static', filename='img/bandera-eng.png') }}" alt="Mi Imagen">                
-                </div>
-            </div> -->
-        </nav>
-        {% if data.nombre_usuario %}
-        <p class="textologin">{{ data.nombre_usuario }}</p>
-        <div class="mi-div3_2">
-            <!-- <a href="{{ url_for('login_esp') }}">{{ data.nombre_usuario }}</a> -->
-            <a href="{{ url_for('logout') }}">Desconectar</a>
+<body>
+    <header>
+        <div class="nav-container">
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index')}}">{{data.iniciH}}</a></li>
+                    <li><a href="{{ url_for('escola')}}">{{data.escolaH}}</a></li>
+                    <li><a href="{{ url_for('contacte')}}">{{data.contacteH}}</a></li>
+                    <li><a href="{{ url_for('matricula')}}">{{data.matriculaH}}</a></li>
+                    <li class="languages">
+                        <a href="{{ url_for('set_language', lang='ca') }}">{{data.caH}}</a> |
+                        <a href="{{ url_for('set_language', lang='en') }}">{{data.enH}}</a> |
+                        <a href="{{ url_for('set_language', lang='es') }}">{{data.esH}}</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        {% else %}
-            <div class="mi-div3">
-                <a href="{{ url_for('login_esp') }}">{{ data.login }}</a>
-            </div>
-        {% endif %}
-    </div>
-</header>
+    </header>
+</body>
+
+<script>
+    window.addEventListener('scroll', function() {
+    var header = document.querySelector('header');
+    header.style.transform = 'translateY(' + window.scrollY + 'px)';
+});
+</script>

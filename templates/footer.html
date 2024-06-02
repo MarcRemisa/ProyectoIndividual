@@ -1,29 +1,45 @@
 <footer>
-    <div>
-        <img class="imagenfooter" src="{{ url_for('static', filename='img/nombre-png.png') }}" alt="Mi Imagen">
-        <h1 class="texto3">{{data.copyright}}</h1>
-        <p class="texto3">{{data.privacidad}}</p>
-        <div class="footer-lists">
-            <ul class="footer-list">
-                <h1 class="texto3">{{data.sobreNosotros}}</h1>
-                <a class="texto3" href="{{ url_for('quienesSomos_esp')}}"><li>{{data.contacto}}</li></a>
-                <a class="texto3" href="{{ url_for('quienesSomos_esp')}}"><li>{{data.quieneSomos}}</li></a>
-                <a class="texto3" href="{{ url_for('pagina1_esp') }}"><li>{{data.dondeEstamos2}}</li></a>
-            </ul>
-
-            <ul class="footer-list">
-                <h1 class="texto3">{{data.escuelas}}</h1>
-                <li class="texto3">{{data.tuEscuela}}</li>
-                <li class="texto3">{{data.escuelas}}</li>
-            </ul>
-
-            <ul class="footer-list">
-                <h1 class="texto3">{{data.informacion}}</h1>
-                <a class="texto3" href="{{ url_for('avisolegal_esp') }}"><li>{{data.avisoLegal}}</li></a>
-                <a class="texto3" href="{{ url_for('politicaPrivacidad_esp') }}"><li>{{data.politicaPrivacidad}}</li></a>
-                <a class="texto3" href="{{ url_for('politicaCookies_esp') }}"><li>{{data.politicaCookies}}</li></a>
-                <a class="texto3" href="{{ url_for('proteccionDatos_esp')}}"><li>{{data.proteccionDatos}}</li></a>
+    <div class="footer-container">
+        <div class="footer-section" id="weather-section">
+            <h3>{{data.tempsF}}</h3>
+            <p id="weather"></p>
+        </div>
+        <div class="footer-section">
+            <h3>{{data.sobreF}}</h3>
+            <p>{{data.texF}}</p>
+        </div>
+        <div class="footer-section">
+            <h3>{{data.enllaçosF}}</h3>
+            <ul>
+                <li><a href="{{ url_for('index')}}">{{data.iniciF}}</a></li>
+                <li><a href="{{ url_for('escola')}}">{{data.escolaF}}</a></li>
+                <li><a href="{{ url_for('contacte')}}">{{data.contacteF}}</a></li>
+                <li><a href="{{ url_for('matricula')}}">{{data.matriculaF}}</a></li>
             </ul>
         </div>
+        <div class="footer-section">
+            <h3>{{data.concate2F}}</h3>
+            <p>{{data.direccioF}}</p>
+            <p>{{data.tlfF}}</p>
+            <p>{{data.emailF}}</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>{{data.dretsF}}</p>
     </div>
 </footer>
+
+<script>
+    function getWeather() {
+        var apiKey = '7f334206263064174ebd5c697d76ab7f';
+        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=Cardedeu,es&units=metric&appid=' + apiKey;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('weather').innerHTML = data.main.temp + '°C';
+            })
+            .catch(error => console.log('Error al obtener el tiempo:', error));
+    }
+    window.onload = getWeather;
+</script>

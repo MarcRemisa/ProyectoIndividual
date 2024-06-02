@@ -1,558 +1,339 @@
-from flask import Flask, render_template, request, url_for, redirect, session
-import mysql.connector
-
-def base_datos():
-    connection = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='marcremisa10',
-        database='tavit'
-    )
-    return connection
-
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'marcremisa10'
+
+app.secret_key = 'tu_clave_secreta_aqui'
+
+translations = {
+    'ca': {
+        'iniciH': 'Inici',
+        'escolaH': "L'escola",
+        'contacteH': 'Contacte',
+        'matriculaH': 'Matrícula',
+        'caH': 'CA',
+        'enH': 'EN',
+        'esH': 'ES',
+        'calendari': 'CALENDARI',
+        'frase': '"Ensenyem no només perquè els nens aprenguin, sinó perquè estimin aprendre"',
+        'benvinguts': "Benvinguts a l'escola TAVIT!",
+        'bentext': "És una satisfacció per a nosaltres donar-vos la benvinguda al nostre lloc web, que neix amb la voluntat d'oferir, amb claredat i transparència, informació d'interès sobre el nostre centre privat d'educació infantil, una Guarderia a Cardedeu moderna plena d'activitats durant tot el curs.",
+        'info1': '☑️ Portem més de 30 anys!',
+        'info2': "☑️ Obert els mesos d'estiu",
+        'info3': "☑️ Centre d'educació infantil fins als 3 anys",
+        'info4': "☑️ 2 plantes a l'escola",
+        'info5': '☑️ Pati de 500m2',
+        'escola': "L'escola TAVIT",
+        'escolainfo1': "La nostra escola, amb 29 anys d'experiència, és una institució homologada per Ensenyament, dedicada a la cura i educació dels nens i nenes fins als 3 anys d'edat. El nostre principal objectiu és proporcionar un entorn segur i estimulant on els més petits puguin aprendre mitjançant el joc, gaudir del seu temps, compartir rialles i experiències, i desenvolupar-se de manera integral durant aquesta etapa tan crucial del seu creixement.",
+        'opinions': 'OPINIONS',
+        'quiSom': 'Qui Som',
+        'infoquiSom': 'La nostra escola, amb 29 anys de experiència, és una institució homologada per Ensenyament, dedicada a la cura i educació dels nens i nenes fins als 3 anys de edat.',
+        'infoquiSom2': 'El nostre principal objectiu és proporcionar un entorn segur i estimulant on els més petits puguin aprendre mitjançant el joc, gaudir del seu temps, compartir rialles i experiències, i desenvolupar-se de manera integral durant aquesta etapa tan crucial del seu creixement.',
+        'infoquiSom3': 'Estem compromesos a oferir una educació de qualitat que promogui el desenvolupament físic, emocional, social i cognitiu dels nostres alumnes, sent conscients de la importància acompanyar-los en aquest viatge aprenentatge i descoberta.',
+        'infoquiSom4': 'Així doncs, a la nostra escola, els nostres educadors estan plenament compromesos amb el benestar i el desenvolupament integral dels infants. Mitjançant activitats adaptades a les seves edats i necessitats, fomentem la curiositat, la creativitat i la autonomia dels nostres alumnes. A través de jocs sensorials, activitats artístiques, música, contes i moments de joc lliure, proporcionem un entorn enriquidor on poden explorar i descobrir el món que els envolta.',
+        'infoquiSom5': 'A més, treballem en estreta col·laboració amb les famílies per crear una comunitat educativa cohesionada, on es fomenta la comunicació i la participació activa de tots els membres en el procés educatiu dels nens i nenes. En definitiva, la nostra escola és un espai de aprenentatge acollidor i estimulant, on cada infant és valorat i respectat com a individu únic i amb un gran potencial a explorar.',
+        'horaris': "Els nostres horaris",
+        'horariEscolar': 'Horari Escolar',
+        'horariEscolarinfo': 'De Dilluns a Divendres de 7:30 - 18:00',
+        'HorariMenjador': 'Horari Menjador',
+        'HorariMenjadorinfo': 'A partir de les 13:00',
+        'HorariDiesFestius': 'Dies Festius',
+        'HorariDiesFestiusinfo': 'La guarderia estara tencada els dies festius, nacionals y locals',
+        'horariEstiu': 'Horari Estiu',
+        'horariEstiuinfo': 'La guarderia estara oberta durant tot els mesos de Juny, Juliol, amb el mateix horari, de 7:30 - 18:00',
+        'instalacio': '-INSTAL·LACIÓ-',
+        'instalacioinfo': "La guarderia esta ubicada al centre de Cardedeu, te un gran pati d'uns 500 m2, amb dos plantes, on la planta principal hi esta l'entrada, el menjador, la cuina, el despaix, i un lavabo, la segona planta es on estan ubicades les sales dels nens i nenes.",
+        'instalacioinfo2': "El pati, es un lloc bastant ampli i assolellat i la seva distribució ens permet que els alumnes de cada edat surtin cadascun evitant que s'ajuntin diferents edats al pati. A mes a l'estiu es fan activitats al pati, perque els nens i nenes s'ho passin be durant la calor",
+        'instalacioinfo3': "Les nostres instal·lacions són modernes i compleixen estrictament totes les exigències i les normatives actuals, dissenyades amb molt de detall per aconseguir un entorn estimulant i segur que potenciï el desenvolupament saludable dels nostres alumnes.",
+        'primeraPlanta': 'Primera Planta',
+        'primera1': '·Entrada',
+        'primera2': '·Menjador',
+        'primera3': '·Cuina',
+        'primera4': '·Despaix',
+        'primera5': '·Lavabo',
+        'segonaPlanta': 'Segona Planta',
+        'segona1': '·1 sala nadons 0-1 anys',
+        'segona2': '·2 sales nans 1-2 anys',
+        'segona3': '·1 sala gegants 2-3 anys',
+        'segona4': '·Lavabos per als nens',
+        'segona5': '·Accés al pati',
+        'onEstemC':'On estem',
+        'detalls':'Detalls de contacte',
+        'direccio':'Direcció',
+        'nomDireccio':'Carrer Ramon Llull, 10, 08440 Cardedeu, Barcelona',
+        'horari':'Horari',
+        'horaris':'Dilluns a Divendres',
+        'horarisHora':'7:30 - 18:00',
+        'telefon':'Telefon',
+        'telefonNum':'938 71 16 84',
+        'email':'E-mail',
+        'emailNom':'tavitcardedeu@hotmail.com',
+        'Missatge':'Envia un missatge',
+        'nom':'Nom',
+        'email2':'E-mail',
+        'MissatgeText':'Missatge',
+        'quiEspot':'Qui es pot apuntar?',
+        'quiEspotinfo':'-Els nens i nenes de 0 a 3 anys-',
+        'quinEshorari':"Quin es l'horari?",
+        'quinEshorariinfo':"-L'horari es de 7:30 a 18-",
+        'formMatricula':'Matricula 2024-2025',
+        'nomForm':'Nom',
+        'cognomForm':'Cognom',
+        'CorreuForm':'Correu Electronic',
+        'DomiciliForm':'Domicili',
+        'nomNadoForm':'Nom nado',
+        'cognomNadoForm':'Cognom nado',
+        'edatNadoForm':'Edat nado',
+        'onEstem':'On estem!',
+        'tempsF':'Temperatura a Cardedeu',
+        'sobreF': 'Sobre Nosaltres',
+        'texF': "Som una escola homologada per Ensenyament per a nens i nenes fins a 3 anys que funciona fa 29 anys. El nostre objectiu és que els infants aprenguin jugant, es diverteixin, riguin, creixin i madurin aspectes d'aquesta edat tan petita.",
+        'enllaçosF': 'Enllaços Útils',
+        'iniciF': 'Inici',
+        'escolaF': "L'escola",
+        'contacteF': 'Contacte',
+        'matriculaF': 'Matrícula',
+        'concate2F': 'Contacte',
+        'direccioF': 'Direcció: Carrer Ramon Llull, 10, 08440 Cardedeu, Barcelona',
+        'tlfF': 'Telèfon: 938 71 16 84',
+        'emailF': 'Email: tavitcardedeu@hotmail.com',
+        'dretsF': "Drets d'autor, 2024. Tots els drets d'autor reservats"
+    },
+    'en': {
+        'iniciH': 'Home',
+        'escolaH': 'School',
+        'contacteH': 'Contact',
+        'matriculaH': 'Registration',
+        'caH': 'CA',
+        'enH': 'EN',
+        'esH': 'ES',
+        'calendari': 'CALENDAR',
+        'frase': '"We teach not only so that children learn, but so they love to learn"',
+        'benvinguts': 'Welcome to TAVIT School!',
+        'bentext': "It's a pleasure for us to welcome you to our website, which is born with the intention of offering, with clarity and transparency, interesting information about our private infant education center, a modern Nursery in Cardedeu full of activities throughout the year.",
+        'info1': '☑️ Over 30 years!',
+        'info2': '☑️ Open during summer months',
+        'info3': '☑️ Infant education center up to 3 years',
+        'info4': '☑️ 2 floors at the school',
+        'info5': '☑️ 500m2 playground',
+        'escola': 'TAVIT School',
+        'escolainfo1': 'Our school, with 29 years of experience, is an institution approved by Education, dedicated to the care and education of children up to 3 years old. Our main goal is to provide a safe and stimulating environment where the little ones can learn through play, enjoy their time, share laughs and experiences, and develop fully during this crucial stage of their growth.',
+        'opinions': 'OPINIONS',
+        'quiSom': 'Who We Are',
+        'infoquiSom': "Our school, with 29 years of experience, is an institution approved by Education, dedicated to the care and education of children up to 3 years old.",
+        'infoquiSom2': 'Our main objective is to provide a safe and stimulating environment where the little ones can learn through play, enjoy their time, share laughs and experiences, and develop fully during this crucial stage of their growth.',
+        'infoquiSom3': 'We are committed to offering quality education that promotes the physical, emotional, social, and cognitive development of our students, being aware of the importance of accompanying them on this journey of learning and discovery.',
+        'infoquiSom4': 'Therefore, at our school, our educators are fully committed to the well-being and integral development of children. Through activities adapted to their ages and needs, we foster curiosity, creativity, and autonomy in our students. Through sensory games, artistic activities, music, stories, and moments of free play, we provide an enriching environment where they can explore and discover the world around them.',
+        'infoquiSom5': 'Additionally, we work closely with families to create a cohesive educational community, where communication and active participation of all members in the educational process of children are encouraged. In short, our school is a welcoming and stimulating learning space, where each child is valued and respected as a unique individual with great potential to explore.',
+        'horaris': "Our Schedules",
+        'horariEscolar': 'School Schedule',
+        'horariEscolarinfo': 'Monday to Friday from 7:30 - 18:00',
+        'HorariMenjador': 'Dining Schedule',
+        'HorariMenjadorinfo': 'Starting from 13:00',
+        'HorariDiesFestius': 'Public Holidays',
+        'HorariDiesFestiusinfo': 'The nursery will be closed on public holidays, national and local',
+        'horariEstiu': 'Summer Schedule',
+        'horariEstiuinfo': 'The nursery will be open during the months of June, July, with the same schedule, from 7:30 - 18:00',
+        'instalacio': '-FACILITIES-',
+        'instalacioinfo': "The nursery is located in the center of Cardedeu, it has a large patio of about 500 m2, with two floors, where the main floor is the entrance, the dining room, the kitchen, the office, and a bathroom, the second floor is where the classrooms of the children are located.",
+        'instalacioinfo2': "The patio is a fairly large and sunny place and its distribution allows students of each age to go out avoiding different ages meeting on the patio. Also, in summer activities are held in the courtyard, so that children have fun during the heat.",
+        'instalacioinfo3': "Our facilities are modern and strictly comply with all current requirements and regulations, designed in great detail to achieve a stimulating and safe environment that enhances the healthy development of our students.",
+        'primeraPlanta': 'First Floor',
+        'primera1': '·Entrance',
+        'primera2': '·Dining room',
+        'primera3': '·Kitchen',
+        'primera4': '·Office',
+        'primera5': '·Bathroom',
+        'segonaPlanta': 'Second Floor',
+        'segona1': '·1 baby room 0-1 years',
+        'segona2': '·2 toddler rooms 1-2 years',
+        'segona3': '·1 giant room 2-3 years',
+        'segona4': '·Bathrooms for children',
+        'segona5': '·Access to the patio',
+        'onEstemC': 'Where we are',
+        'detalls': 'Contact details',
+        'direccio': 'Address',
+        'nomDireccio': 'Ramon Llull Street, 10, 08440 Cardedeu, Barcelona',
+        'horari': 'Opening hours',
+        'horaris': 'Monday to Friday',
+        'horarisHora': '7:30 - 18:00',
+        'telefon': 'Phone',
+        'telefonNum': '938 71 16 84',
+        'email': 'Email',
+        'emailNom': 'tavitcardedeu@hotmail.com',
+        'Missatge': 'Send a message',
+        'nom': 'Name',
+        'email2': 'Email',
+        'MissatgeText': 'Message',
+        'quiEspot': 'Who can sign up?',
+        'quiEspotinfo': '- Children from 0 to 3 years old -',
+        'quinEshorari': 'What is the schedule?',
+        'quinEshorariinfo': '- The schedule is from 7:30 to 18:00 -',
+        'formMatricula': 'Enrollment 2024-2025',
+        'nomForm': 'First Name',
+        'cognomForm': 'Last Name',
+        'CorreuForm': 'Email',
+        'DomiciliForm': 'Address',
+        'nomNadoForm': "Child's Name",
+        'cognomNadoForm': "Child's Last Name",
+        'edatNadoForm': "Child's Age",
+        'onEstem': 'Where we are!',
+        'tempsF':'Temperature at Cardedeu',
+        'sobreF': 'About Us',
+        'texF': "We are a school approved by Education for children up to 3 years old that has been operating for 29 years. Our goal is for children to learn through play, have fun, laugh, grow, and mature aspects of this very young age.",
+        'enllaçosF': 'Useful Links',
+        'iniciF': 'Home',
+        'escolaF': 'School',
+        'contacteF': 'Contact',
+        'matriculaF': 'Registration',
+        'concate2F': 'Contact',
+        'direccioF': 'Address: Carrer Ramon Llull, 10, 08440 Cardedeu, Barcelona',
+        'tlfF': 'Phone: 938 71 16 84',
+        'emailF': 'Email: tavitcardedeu@hotmail.com',
+        'dretsF': 'Copyright, 2024. All rights reserved'
+    },
+    'es': {
+        'iniciH': 'Inicio',
+        'escolaH': 'Escuela',
+        'contacteH': 'Contacto',
+        'matriculaH': 'Matrícula',
+        'caH': 'CA',
+        'enH': 'EN',
+        'esH': 'ES',
+        'calendari': 'CALENDARIO',
+        'frase': '"Enseñamos no solo para que los niños aprendan, sino para que amen aprender"',
+        'benvinguts': '¡Bienvenidos a la escuela TAVIT!',
+        'bentext': "Es un placer para nosotros darles la bienvenida a nuestro sitio web, que nace con la intención de ofrecer, con claridad y transparencia, información interesante sobre nuestro centro privado de educación infantil, una Guardería en Cardedeu moderna llena de actividades durante todo el año.",
+        'info1': '☑️ ¡Más de 30 años!',
+        'info2': '☑️ Abierto durante los meses de verano',
+        'info3': '☑️ Centro de educación infantil hasta los 3 años',
+        'info4': '☑️ 2 plantas en la escuela',
+        'info5': '☑️ Patio de 500m2',
+        'escola': 'La escuela TAVIT',
+        'escolainfo1': 'Nuestra escuela, con 29 años de experiencia, es una institución homologada por Educación, dedicada al cuidado y educación de niños y niñas hasta los 3 años de edad. Nuestro principal objetivo es proporcionar un entorno seguro y estimulante donde los más pequeños puedan aprender a través del juego, disfrutar de su tiempo, compartir risas y experiencias, y desarrollarse plenamente durante esta etapa crucial de su crecimiento.',
+        'opinions': 'OPINIONES',
+        'quiSom': 'Quiénes Somos',
+        'infoquiSom': "Nuestra escuela, con 29 años de experiencia, es una institución aprobada por Educación, dedicada al cuidado y educación de niños de hasta 3 años.",
+        'infoquiSom2': 'Nuestro principal objetivo es proporcionar un entorno seguro y estimulante donde los más pequeños puedan aprender a través del juego, disfrutar de su tiempo, compartir risas y experiencias, y desarrollarse plenamente durante esta etapa crucial de su crecimiento.',
+        'infoquiSom3': 'Estamos comprometidos a ofrecer una educación de calidad que promueva el desarrollo físico, emocional, social y cognitivo de nuestros estudiantes, siendo conscientes de la importancia de acompañarlos en este viaje de aprendizaje y descubrimiento.',
+        'infoquiSom4': 'Por lo tanto, en nuestra escuela, nuestros educadores están totalmente comprometidos con el bienestar y desarrollo integral de los niños. A través de actividades adaptadas a sus edades y necesidades, fomentamos la curiosidad, la creatividad y la autonomía en nuestros estudiantes. A través de juegos sensoriales, actividades artísticas, música, cuentos y momentos de juego libre, proporcionamos un entorno enriquecedor donde puedan explorar y descubrir el mundo que les rodea.',
+        'infoquiSom5': 'Además, trabajamos en estrecha colaboración con las familias para crear una comunidad educativa cohesionada, donde se fomente la comunicación y la participación activa de todos los miembros en el proceso educativo de los niños. En resumen, nuestra escuela es un espacio de aprendizaje acogedor y estimulante, donde cada niño es valorado y respetado como un individuo único con un gran potencial por explorar.',
+        'horaris': "Nuestros Horarios",
+        'horariEscolar': 'Horario Escolar',
+        'horariEscolarinfo': 'De lunes a viernes de 7:30 a 18:00',
+        'HorariMenjador': 'Horario del Comedor',
+        'HorariMenjadorinfo': 'A partir de las 13:00',
+        'HorariDiesFestius': 'Días Festivos',
+        'HorariDiesFestiusinfo': 'La guardería permanecerá cerrada en días festivos, nacionales y locales',
+        'horariEstiu': 'Horario de Verano',
+        'horariEstiuinfo': 'La guardería estará abierta durante los meses de junio y julio, con el mismo horario, de 7:30 a 18:00',
+        'instalacio': '-INSTALACIONES-',
+        'instalacioinfo': "La guardería está ubicada en el centro de Cardedeu, cuenta con un gran patio de aproximadamente 500 m2, con dos plantas, donde la planta principal es la entrada, el comedor, la cocina, la oficina y un baño, la segunda planta es donde se encuentran las aulas de los niños.",
+        'instalacioinfo2': "El patio es un lugar bastante grande y soleado y su distribución permite que los estudiantes de cada edad salgan evitando que diferentes edades se encuentren en el patio. Además, en verano se realizan actividades en el patio, para que los niños se diviertan durante el calor.",
+        'instalacioinfo3': "Nuestras instalaciones son modernas y cumplen estrictamente con todos los requisitos y regulaciones actuales, diseñadas con gran detalle para lograr un entorno estimulante y seguro que potencie el sano desarrollo de nuestros estudiantes.",
+        'primeraPlanta': 'Primera Planta',
+        'primera1': '·Entrada',
+        'primera2': '·Comedor',
+        'primera3': '·Cocina',
+        'primera4': '·Oficina',
+        'primera5': '·Baño',
+        'segonaPlanta': 'Segunda Planta',
+        'segona1': '·1 sala de bebés 0-1 años',
+        'segona2': '·2 salas de niños pequeños 1-2 años',
+        'segona3': '·1 sala gigante 2-3 años',
+        'segona4': '·Baños para niños',
+        'segona5': '·Acceso al patio',
+        'onEstemC': 'Dónde estamos',
+        'detalls': 'Detalles de contacto',
+        'direccio': 'Dirección',
+        'nomDireccio': 'Calle Ramon Llull, 10, 08440 Cardedeu, Barcelona',
+        'horari': 'Horario',
+        'horaris': 'Lunes a Viernes',
+        'horarisHora': '7:30 - 18:00',
+        'telefon': 'Teléfono',
+        'telefonNum': '938 71 16 84',
+        'email': 'Correo electrónico',
+        'emailNom': 'tavitcardedeu@hotmail.com',
+        'Missatge': 'Enviar un mensaje',
+        'nom': 'Nombre',
+        'email2': 'Correo electrónico',
+        'MissatgeText': 'Mensaje',
+        'quiEspot': '¿Quién puede apuntarse?',
+        'quiEspotinfo': '- Niños y niñas de 0 a 3 años -',
+        'quinEshorari': '¿Cuál es el horario?',
+        'quinEshorariinfo': '- El horario es de 7:30 a 18:00 -',
+        'formMatricula': 'Matrícula 2024-2025',
+        'nomForm': 'Nombre',
+        'cognomForm': 'Apellido',
+        'CorreuForm': 'Correo Electrónico',
+        'DomiciliForm': 'Domicilio',
+        'nomNadoForm': 'Nombre del niño',
+        'cognomNadoForm': 'Apellido del niño',
+        'edatNadoForm': 'Edad del niño',
+        'onEstem': '¡Dónde estamos!',
+        'tempsF':'Temperatura en Cardedeu',
+        'sobreF': 'Sobre Nosotros',
+        'texF': 'Somos una escuela homologada por Educación para niños y niñas de hasta 3 años que lleva funcionando 29 años. Nuestro objetivo es que los niños aprendan jugando, se diviertan, rían, crezcan y maduren aspectos de esta temprana edad.',
+        'enllaçosF': 'Enlaces Útiles',
+        'iniciF': 'Inicio',
+        'escolaF': 'Escuela',
+        'contacteF': 'Contacto',
+        'matriculaF': 'Matrícula',
+        'concate2F': 'Contacto',
+        'direccioF': 'Dirección: Carrer Ramon Llull, 10, 08440 Cardedeu, Barcelona',
+        'tlfF': 'Teléfono: 938 71 16 84',
+        'emailF': 'Email: tavitcardedeu@hotmail.com',
+        'dretsF': 'Derechos de autor, 2024. Todos los derechos reservados'
+        }
+    }
+
 
 @app.route('/')
-def pagina1_esp():
-    nombre_usuario = session.get('nombre_usuario')
-    data={
-        'titulo':'TAVIT',
-        'registro':'Regsitro',
-        'quieneSomos':'Quienes Somos',
-        'contacto':'Contacto',
-        'idiomaEs':'ES',
-        'idiomaCa':'CA',
-        'idiomaEn':'EN',
-        'nombre_usuario': nombre_usuario,
-        'login':'LOGIN / REGISTER',
-        'calendario':'CALENDARIO',
-        'dondeEstamos':'DONDE ESTAMOS',
-        'infoDondeEstamos' : 'La escuela se encuentra en Cardedeu, un pueblo del Valles Oriental, la calle en la cual se encuentra la escuela es la siguiente: C Ramon Llull, 12, 08440, Cardedeu (Barcelona).',
-        'copyright' : '© 2023',
-        'privacidad' : 'Privacy — Terms',
-        'sobreNosotros' : 'Sobre Nosotros',
-        'dondeEstamos2' : 'Donde Estamos',
-        'escuelas' : 'Escuelas',
-        'tuEscuela' : 'Tu escuela',
-        'informacion' : 'Informacion',
-        'avisoLegal' : 'Aviso Legal',
-        'politicaPrivacidad' : 'Politica de Privacidad',
-        'politicaCookies' : 'Politica de Cookies',
-        'proteccionDatos' : 'Proteccion de Datos'
-    }
+def index():
+    lang = session.get('lang', 'ca')
+    data = translations.get(lang, translations['ca'])
+    return render_template('paginaPrincipal.html', data=data)
+
+@app.route('/escola')
+def escola():
+    lang = session.get('lang', 'ca')
+    data = translations.get(lang, translations['ca'])
+    return render_template('escola.html', data=data)
+
+@app.route('/contacte', methods=['GET', 'POST'])
+def contacte():
+    lang = session.get('lang', 'ca')
+    data = translations.get(lang, translations['ca'])
     
-    return render_template('pagina1-esp.html',data=data)
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        email = request.form['email']
+        mensaje = request.form['mensaje']
+        return render_template('contacte.html', data=data)
+    else:
+        return render_template('contacte.html', data=data)
 
-@app.route('/logout')
-def logout():
-    session.pop('nombre_usuario', None)
-    return redirect(url_for('pagina1_esp'))
-
-@app.route('/correcto')
-def correcto():
-    data={
-        'correcto':'Datos Guardados Correctamente',
-        'atras':'Volver a la pagina principal'
-    }
-    return render_template('correcto.html', data=data)
-
-@app.route('/registro_esp', methods=['GET', 'POST'])
-def registro_esp():
-    nombre_usuario = session.get('nombre_usuario')
+@app.route('/matricula', methods=['GET', 'POST'])
+def matricula():
+    lang = session.get('lang', 'ca')
+    data = translations.get(lang, translations['ca'])
+    
     if request.method == 'POST':
         nombre = request.form['nombre']
         apellido = request.form['apellido']
-        correo = request.form['correo']
+        email = request.form['email']
         domicilio = request.form['domicilio']
-        telefono = request.form['telefono']
-        nombre_hijo = request.form['nombreHijo']
-        apellido_hijo = request.form['apellidoHijo']
-        edad_hijo = request.form['edad']
+        nombre_hijo = request.form['nombre_hijo']
+        apellido_hijo = request.form['apellido_hijo']
+        edad_hijo = request.form['edad_hijo']
 
-        conn = base_datos()
-        cursor = conn.cursor()
-        cursor.execute('INSERT INTO registro (nombre, apellido, correo_electronico, domicilio, telefono, nombre_hijo, apellido_hijo, edad_hijo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (nombre, apellido, correo, domicilio, telefono, nombre_hijo, apellido_hijo, edad_hijo))
-        conn.commit()
-        conn.close()
-
-        return redirect(url_for('correcto'))
+        return render_template('matricula.html', data=data)
     else:
-        data={
-            'titulo':'TAVIT',
-            'registro':'Regsitro',
-            'quieneSomos':'Quienes Somos',
-            'contacto':'Contacto',
-            'idiomaEs':'ES',
-            'idiomaCa':'CA',
-            'idiomaEn':'EN',
-            'nombre_usuario': nombre_usuario,
-            'login':'LOGIN / REGISTER',
-            'registro2' : 'REGISTRO',
-            'info' : 'INFORMACION DEL TUTOR LEGAL',
-            'nombre' : 'Nombre',
-            'apellido' : 'Apellido',
-            'correo' : 'Correo Electronico',
-            'domicilio' : 'Domicilio',
-            'telefono' : 'Telefono', 
-            'info2' : 'INFORMACION DEL HIJO',
-            'nombreHijo' : 'Nombre',
-            'apellidoHijo' : 'Apellido',
-            'edad' : 'Edad',
-            'enviar' : 'ENVIAR',
-            'copyright' : '© 2023',
-            'privacidad' : 'Privacy — Terms',
-            'sobreNosotros' : 'Sobre Nosotros',
-            'dondeEstamos2' : 'Donde Estamos',
-            'escuelas' : 'Escuelas',
-            'tuEscuela' : 'Tu escuela',
-            'informacion' : 'Informacion',
-            'avisoLegal' : 'Aviso Legal',
-            'politicaPrivacidad' : 'Politica de Privacidad',
-            'politicaCookies' : 'Politica de Cookies',
-            'proteccionDatos' : 'Proteccion de Datos',
-        }
-    return render_template('registro-esp.html',data=data)
+        return render_template('matricula.html', data=data)
 
-@app.route('/datosCorrectos')
-def datosCorrectos():
-    nombre_usuario = session.get('nombre_usuario')
-    data={
-        'datosCorrectos':'Datos correctos',
-        'pagina1':'Ves pagina principal',
-        'nombre_usuario': nombre_usuario
-    }
-    return render_template('datosCorrectos.html', data=data)
-
-@app.route('/datosIncorrectos')
-def datosIncorrectos():
-    data={
-        'titulo':'TAVIT',
-        'registro':'Regsitro',
-        'quieneSomos':'Quienes Somos',
-        'contacto':'Contacto',
-        'idiomaEs':'ES',
-        'idiomaCa':'CA',
-        'idiomaEn':'EN',
-        'login':'LOGIN / REGISTER',
-        'login2' : 'LOGIN',
-        'registrado' : 'No te has registrado todavia?',
-        'nombre' : 'Nombre de Usuario',
-        'contraseña' : 'Contraseña',
-        'olvidadoContraseña' : 'He olvidado mi contraseña',
-        'enviar' : 'ENVIAR',
-        'copyright' : '© 2023',
-        'privacidad' : 'Privacy — Terms',
-        'sobreNosotros' : 'Sobre Nosotros',
-        'dondeEstamos2' : 'Donde Estamos',
-        'escuelas' : 'Escuelas',
-        'tuEscuela' : 'Tu escuela',
-        'informacion' : 'Informacion',
-        'avisoLegal' : 'Aviso Legal',
-        'politicaPrivacidad' : 'Politica de Privacidad',
-        'politicaCookies' : 'Politica de Cookies',
-        'proteccionDatos' : 'Proteccion de Datos',
-        'errorNombre' : 'El nombre es incorrecto',
-        'errorContraseña' : 'La contraseña es incorrecta'
-    }
-    return render_template('datosIncorrectos.html', data=data)
-
-@app.route('/login_esp', methods=['GET', 'POST'])
-def login_esp():
-    if request.method == 'POST':
-        nombre_usuario = request.form['nombreUsuario']
-        contraseña = request.form['contraseña']
-        
-        conn = base_datos()
-        cursor = conn.cursor()
-        
-        consulta = "SELECT * FROM register WHERE NombreUsuario = %s AND Contraseña = %s"
-        valores = (nombre_usuario, contraseña)
-        cursor.execute(consulta, valores)
-        
-        usuario = cursor.fetchone()
-        
-        conn.close()
-        
-        if usuario:
-            session['nombre_usuario'] = nombre_usuario
-            return redirect(url_for('datosCorrectos'))
-        else:
-            data = {
-                'error': 'Usuario o contraseña incorrectos.',
-                'titulo': 'TAVIT',
-                'registro': 'Registro',
-                'quieneSomos': 'Quiénes Somos',
-                'contacto': 'Contacto',
-                'idiomaEs': 'ES',
-                'idiomaCa': 'CA',
-                'idiomaEn': 'EN',
-                'login': 'LOGIN / REGISTER',
-                'login2': 'LOGIN',
-                'registrado': '¿No te has registrado todavía?',
-                'nombre': 'Nombre de Usuario',
-                'contraseña': 'Contraseña',
-                'olvidadoContraseña': 'He olvidado mi contraseña',
-                'enviar': 'ENVIAR',
-                'copyright': '© 2023',
-                'privacidad': 'Privacidad — Términos',
-                'sobreNosotros': 'Sobre Nosotros',
-                'dondeEstamos2': 'Dónde Estamos',
-                'escuelas': 'Escuelas',
-                'tuEscuela': 'Tu Escuela',
-                'informacion': 'Información',
-                'avisoLegal': 'Aviso Legal',
-                'politicaPrivacidad': 'Política de Privacidad',
-                'politicaCookies': 'Política de Cookies',
-                'proteccionDatos': 'Protección de Datos',
-            }
-            return render_template('login_esp.html', data=data)
-    
-    data = {
-        'titulo': 'TAVIT',
-        'registro': 'Registro',
-        'quieneSomos': 'Quiénes Somos',
-        'contacto': 'Contacto',
-        'idiomaEs': 'ES',
-        'idiomaCa': 'CA',
-        'idiomaEn': 'EN',
-        'login': 'LOGIN / REGISTER',
-        'login2': 'LOGIN',
-        'registrado': '¿No te has registrado todavía?',
-        'nombre': 'Nombre de Usuario',
-        'contraseña': 'Contraseña',
-        'olvidadoContraseña': 'He olvidado mi contraseña',
-        'enviar': 'ENVIAR',
-        'copyright': '© 2023',
-        'privacidad': 'Privacidad — Términos',
-        'sobreNosotros': 'Sobre Nosotros',
-        'dondeEstamos2': 'Dónde Estamos',
-        'escuelas': 'Escuelas',
-        'tuEscuela': 'Tu Escuela',
-        'informacion': 'Información',
-        'avisoLegal': 'Aviso Legal',
-        'politicaPrivacidad': 'Política de Privacidad',
-        'politicaCookies': 'Política de Cookies',
-        'proteccionDatos': 'Protección de Datos',
-    }
-    return render_template('login_esp.html', data=data)
-
-
-@app.route('/cuentaCreada')
-def cuentaCreada():
-    data={
-        'cuentaCreada':'La cuenta ha sido creada',
-        'registro':'Registro'
-    }
-    return render_template('cuentaCreada.html', data=data)
-
-@app.route('/cambiar_contraseña', methods=['GET', 'POST'])
-def cambiar_contraseña():
-    if request.method == 'POST':
-        usuario = request.form['usuario']
-        nueva_contraseña = request.form['nueva_contraseña']
-        repetir_contraseña = request.form['repetir_contraseña']
-
-        conn = base_datos()
-        cursor = conn.cursor()
-        
-        consulta_usuario = "SELECT * FROM register WHERE NombreUsuario = %s"
-        cursor.execute(consulta_usuario, (usuario,))
-        usuario_existente = cursor.fetchone()
-
-        if usuario_existente:
-            consulta_update = "UPDATE register SET Contraseña = %s, RepiteContraseña = %s WHERE NombreUsuario = %s"
-            valores = (nueva_contraseña, repetir_contraseña, usuario)
-            cursor.execute(consulta_update, valores)
-            conn.commit()
-            conn.close()
-            return redirect(url_for('login_esp'))
-        else:
-            data = {
-                'error': 'El usuario no existe en la base de datos.',
-                'cambioContraseña': 'Cambio de Contraseña',
-                'usuarioContraseña': 'Usuario',
-                'nuevaContraseña': 'Nueva Contraseña',
-                'repetirNuevaContraseña' : 'Repita la nueva contraseña',
-                'cambiarContraseña': 'Cambiar Contraseña'
-            }
-            return render_template('cambiar_contraseña.html', data=data)
-    else:
-        data = {
-            'cambioContraseña': 'Cambio de Contraseña',
-            'usuarioContraseña': 'Usuario',
-            'nuevaContraseña': 'Nueva Contraseña',
-            'repetirNuevaContraseña' : 'Repita la nueva contraseña',
-            'cambiarContraseña': 'Cambiar Contraseña'
-        }
-        return render_template('cambiar_contraseña.html', data=data)
-
-@app.route('/register_esp' ,methods=['GET', 'POST'])
-def register_esp():
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        apellido = request.form['apellido']
-        nombre_usuario = request.form['nombreUsuario']
-        correo = request.form['correo']
-        contraseña = request.form['contraseña']
-        repite_contraseña = request.form['repiteContraseña']
-        
-        conn = base_datos()
-        cursor = conn.cursor()
-        
-        consulta = "INSERT INTO register (Nombre, Apellido, NombreUsuario, CorreoElectronico, Contraseña, RepiteContraseña) VALUES (%s, %s, %s, %s, %s, %s)"
-        valores = (nombre, apellido, nombre_usuario, correo, contraseña, repite_contraseña)
-        cursor.execute(consulta, valores)
-        
-        conn.commit()
-        conn.close()
-        
-        return redirect(url_for('cuentaCreada'))
-    data={
-        'titulo':'TAVIT',
-        'registro':'Regsitro',
-        'quieneSomos':'Quienes Somos',
-        'contacto':'Contacto',
-        'idiomaEs':'ES',
-        'idiomaCa':'CA',
-        'idiomaEn':'EN',
-        'login':'LOGIN / REGISTER',
-        'register' : 'REGISTER',
-        'cuenta' : 'Ya tienes una cuenta?',
-        'nombre' : 'Nombre',
-        'apellido' : 'Apellido',
-        'nombreUsuario' : 'Nombre de Usuario',
-        'correo' : 'Correo Electronico',
-        'contraseña' : 'Contraseña',
-        'repiteContraseña' : 'Repite Contraseña',
-        'enviar' : 'ENVIAR',
-        'copyright' : '© 2023',
-        'privacidad' : 'Privacy — Terms',
-        'sobreNosotros' : 'Sobre Nosotros',
-        'dondeEstamos2' : 'Donde Estamos',
-        'escuelas' : 'Escuelas',
-        'tuEscuela' : 'Tu escuela',
-        'informacion' : 'Informacion',
-        'avisoLegal' : 'Aviso Legal',
-        'politicaPrivacidad' : 'Politica de Privacidad',
-        'politicaCookies' : 'Politica de Cookies',
-        'proteccionDatos' : 'Proteccion de Datos',
-    }
-    return render_template('register_esp.html', data=data)
-
-@app.route('/quienesSomos_esp')
-def quienesSomos_esp():
-    nombre_usuario = session.get('nombre_usuario')
-    data={
-        'titulo':'TAVIT',
-        'registro':'Regsitro',
-        'quieneSomos':'Quienes Somos',
-        'contacto':'Contacto',
-        'idiomaEs':'ES',
-        'idiomaCa':'CA',
-        'idiomaEn':'EN',
-        'nombre_usuario': nombre_usuario,
-        'login':'LOGIN / REGISTER',
-        'quienesSomos2' : 'QUIENES SOMOS',
-        'informacion1' : 'Somos una escuela homologada por enseñanza para niños y niñas hasta los 3 años.',
-        'informacion2' : 'La escuela esta abierta de',
-        'informacion3' : 'Lunes',
-        'informacion4' : 'a',
-        'informacion5' : 'Viernes',
-        'informacion6' : 'de',
-        'informacion7' : '7:30',
-        'informacion8' : '18:00.',
-        'informacion9' : 'Si quiere hacer que su hijo/hija pertenezca a esta escuela, pulse en',
-        'informacion10' : 'Registro',
-        'informacion11' : 'o',
-        'informacion12' : 'pulse aquí',
-        'dondeEstamos':'DONDE ESTAMOS',
-        'infoDondeEstamos' : 'La escuela se encuentra en Cardedeu, un pueblo del Valles Oriental, la calle en la cual se encuentra la escuela es la siguiente: C Ramon Llull, 12, 08440, Cardedeu (Barcelona).',
-        'contacto2' : 'CONTACTO',
-        'facebooklink' : 'http://www.facebook.com/tavitcardedeu',
-        'facebook' : 'facebook.com/tavitcardedeu',
-        'gmaillink' : 'http://www.tavitcardedeu@hotmail.com',
-        'gmail' : 'tavitcardedeu@hotmail.com',
-        'copyright' : '© 2023',
-        'privacidad' : 'Privacy — Terms',
-        'sobreNosotros' : 'Sobre Nosotros',
-        'dondeEstamos2' : 'Donde Estamos',
-        'escuelas' : 'Escuelas',
-        'tuEscuela' : 'Tu escuela',
-        'informacion' : 'Informacion',
-        'avisoLegal' : 'Aviso Legal',
-        'politicaPrivacidad' : 'Politica de Privacidad',
-        'politicaCookies' : 'Politica de Cookies',
-        'proteccionDatos' : 'Proteccion de Datos',
-    }
-    return render_template('quienesSomos_esp.html', data=data)
-
-@app.route('/avisolegal_esp')
-def avisolegal_esp():
-    nombre_usuario = session.get('nombre_usuario')
-    data={
-        'titulo':'TAVIT',
-        'registro':'Regsitro',
-        'quieneSomos':'Quienes Somos',
-        'contacto':'Contacto',
-        'idiomaEs':'ES',
-        'idiomaCa':'CA',
-        'idiomaEn':'EN',
-        'nombre_usuario': nombre_usuario,
-        'login':'LOGIN / REGISTER',
-        'avisolegal2' : 'Aviso Legal',
-        'texto1' : 'Esta es una página web ficticia y el contenido aquí proporcionado es solo para fines educativos e ilustrativos. No se debe considerar como asesoramiento legal.',
-        'PropiedadIntelectual' : '1. Propiedad Intelectual',
-        'texto2' : 'Los contenidos de esta página web, incluyendo textos, imágenes, logotipos, gráficos, sonidos, animaciones y cualquier otro elemento, están protegidos por la legislación sobre propiedad intelectual e industrial.',
-        'UsoInformacion' : '2. Uso de la Información',
-        'texto3' : 'La información proporcionada en esta página web es solo para fines informativos. No nos hacemos responsables de la exactitud, integridad o actualidad de la información proporcionada.',
-        'EnlacesExternos' : '3. Enlaces Externos',
-        'texto4' : 'Esta página web puede contener enlaces a sitios web externos sobre los cuales no tenemos control. No nos hacemos responsables del contenido o prácticas de privacidad de estos sitios.',
-        'Modificaciones' : '4. Modificaciones',
-        'texto5' : 'Nos reservamos el derecho de realizar cambios en esta página web, incluyendo estos términos legales, en cualquier momento y sin previo aviso. Se recomienda revisar periódicamente esta página para estar al tanto de cualquier cambio.',
-        'LeyAplicable' : '5. Ley Aplicable',
-        'texto6' : 'Estos términos legales se rigen por las leyes de España. Cualquier disputa relacionada con esta página web estará sujeta a la jurisdicción de los tribunales de Barcelona, España.',
-        'copyright' : '© 2023',
-        'privacidad' : 'Privacy — Terms',
-        'sobreNosotros' : 'Sobre Nosotros',
-        'dondeEstamos2' : 'Donde Estamos',
-        'escuelas' : 'Escuelas',
-        'tuEscuela' : 'Tu escuela',
-        'informacion' : 'Informacion',
-        'avisoLegal' : 'Aviso Legal',
-        'politicaPrivacidad' : 'Politica de Privacidad',
-        'politicaCookies' : 'Politica de Cookies',
-        'proteccionDatos' : 'Proteccion de Datos',
-    }
-    return render_template('aviso_legal_esp.html', data=data)
-
-@app.route('/politicaCookies_esp')
-def politicaCookies_esp():
-    nombre_usuario = session.get('nombre_usuario')
-    data={
-        'titulo':'TAVIT',
-        'registro':'Regsitro',
-        'quieneSomos':'Quienes Somos',
-        'contacto':'Contacto',
-        'idiomaEs':'ES',
-        'idiomaCa':'CA',
-        'idiomaEn':'EN',
-        'nombre_usuario': nombre_usuario,
-        'login':'LOGIN / REGISTER',
-        'cookies' : 'Politica de Cookies',
-        'texto1' : 'Esta página web utiliza cookies para mejorar la experiencia del usuario. A continuación, se explica qué son las cookies, cómo las utilizamos y cómo puede gestionarlas.',
-        'queSon' : '1. ¿Qué son las Cookies?',
-        'texto2' : 'Las cookies son pequeños archivos de texto que se almacenan en su dispositivo cuando visita un sitio web. Estos archivos contienen información que puede ser utilizada por el sitio web para mejorar la experiencia del usuario, recordar preferencias y realizar un seguimiento del comportamiento del usuario.',
-        'tipos' : '2. Tipos de Cookies que Utilizamos',
-        'texto3' : 'Utilizamos cookies de sesión y cookies persistentes en nuestro sitio web. Las cookies de sesión se eliminan automáticamente cuando cierra su navegador, mientras que las cookies persistentes permanecen en su dispositivo durante un período de tiempo determinado o hasta que las elimine manualmente.',
-        'comoUtilizar' : '3. Cómo Utilizamos las Cookies',
-        'texto4' : 'Utilizamos cookies para recordar sus preferencias de idioma, personalizar el contenido que ve, analizar el tráfico del sitio y mejorar nuestros servicios. También podemos compartir información sobre su uso de nuestro sitio con nuestros socios de analítica.',
-        'gestion' : '4. Gestión de Cookies',
-        'texto5' : 'Puede gestionar las cookies en la configuración de su navegador. La mayoría de los navegadores le permiten bloquear o eliminar cookies, así como configurar preferencias para cookies específicas de sitios web. Sin embargo, tenga en cuenta que al deshabilitar las cookies, es posible que algunas funciones de nuestro sitio web no funcionen correctamente.',
-        'cambios' : '5. Cambios en la Política de Cookies',
-        'texto6' : 'Nos reservamos el derecho de actualizar o cambiar nuestra Política de Cookies en cualquier momento. Le notificaremos cualquier cambio publicando la nueva Política de Cookies en esta página.',
-        'contacto2' : '6. Contacto',
-        'texto7' : 'Si tiene alguna pregunta sobre nuestra Política de Cookies, por favor contáctenos a tavitcardedeu@hotmail.com.',
-        'copyright' : '© 2023',
-        'privacidad' : 'Privacy — Terms',
-        'sobreNosotros' : 'Sobre Nosotros',
-        'dondeEstamos2' : 'Donde Estamos',
-        'escuelas' : 'Escuelas',
-        'tuEscuela' : 'Tu escuela',
-        'informacion' : 'Informacion',
-        'avisoLegal' : 'Aviso Legal',
-        'politicaPrivacidad' : 'Politica de Privacidad',
-        'politicaCookies' : 'Politica de Cookies',
-        'proteccionDatos' : 'Proteccion de Datos',
-    }
-    return render_template('politica_cookies_esp.html', data=data)
-
-@app.route('/politicaPrivacidad_esp')
-def politicaPrivacidad_esp():
-    nombre_usuario = session.get('nombre_usuario')
-    data={
-        'titulo':'TAVIT',
-        'registro':'Regsitro',
-        'quieneSomos':'Quienes Somos',
-        'contacto':'Contacto',
-        'idiomaEs':'ES',
-        'idiomaCa':'CA',
-        'idiomaEn':'EN',
-        'nombre_usuario': nombre_usuario,
-        'login':'LOGIN / REGISTER',
-        'politicaPrivacidad' : 'Política de Privacidad',
-        'texto1' : 'En Tavit, respetamos y protegemos la privacidad de nuestros usuarios. Esta Política de Privacidad describe cómo recopilamos, utilizamos y protegemos la información personal que usted nos proporciona a través de nuestro sitio web.',
-        'recopilacionInformacion' : '1. Recopilación de Información',
-        'texto2' : 'Recopilamos información personal que usted nos proporciona voluntariamente, como su nombre, dirección de correo electrónico, número de teléfono, etc., cuando se registra en nuestro sitio, se suscribe a nuestro boletín informativo, participa en encuestas o nos contacta de otras formas.',
-        'usoInformacion' : '2. Uso de la Información',
-        'texto3' : 'Utilizamos la información personal que recopilamos para comunicarnos con usted, proporcionarle los servicios que solicita, mejorar nuestro sitio web y nuestros servicios, y enviarle información relevante sobre nuestros productos o servicios, siempre que usted nos haya dado su consentimiento para hacerlo.',
-        'compartirInformacion' : '3. Compartir Información',
-        'texto4' : 'No compartiremos su información personal con terceros, excepto cuando sea necesario para proporcionarle los servicios que solicita o cuando estemos legalmente obligados a hacerlo.',
-        'seguridadInformacion' : '4. Seguridad de la Información',
-        'texto5' : 'Tomamos medidas razonables para proteger la información personal que recopilamos contra el acceso no autorizado, la divulgación, la alteración o la destrucción.',
-        'derechos' : '5. Sus Derechos',
-        'texto6' : 'Usted tiene derecho a acceder, corregir y eliminar la información personal que tenemos sobre usted. También puede optar por no recibir comunicaciones de marketing por correo electrónico en cualquier momento.',
-        'cambios' : '6. Cambios a esta Política',
-        'texto7' : 'Nos reservamos el derecho de actualizar o cambiar nuestra Política de Privacidad en cualquier momento. Le notificaremos cualquier cambio publicando la nueva Política de Privacidad en esta página.',
-        'contacto2' : '7. Contacto',
-        'texto8' : 'Si tiene alguna pregunta sobre esta Política de Privacidad, por favor contáctenos a tavitcardedeu@hotmail.com.',
-        'copyright' : '© 2023',
-        'privacidad' : 'Privacy — Terms',
-        'sobreNosotros' : 'Sobre Nosotros',
-        'dondeEstamos2' : 'Donde Estamos',
-        'escuelas' : 'Escuelas',
-        'tuEscuela' : 'Tu escuela',
-        'informacion' : 'Informacion',
-        'avisoLegal' : 'Aviso Legal',
-        'politicaPrivacidad' : 'Politica de Privacidad',
-        'politicaCookies' : 'Politica de Cookies',
-        'proteccionDatos' : 'Proteccion de Datos',
-    }
-    return render_template('politica_privacidad_esp.html', data=data)
-
-@app.route('/proteccionDatos_esp')
-def proteccionDatos_esp():
-    nombre_usuario = session.get('nombre_usuario')
-    data={
-        'titulo':'TAVIT',
-        'registro':'Regsitro',
-        'quieneSomos':'Quienes Somos',
-        'contacto':'Contacto',
-        'idiomaEs':'ES',
-        'idiomaCa':'CA',
-        'idiomaEn':'EN',
-        'nombre_usuario': nombre_usuario,
-        'login':'LOGIN / REGISTER',
-        'proteccionDatos2' : 'Política de Protección de Datos',
-        'texto1' : 'En Tavit, nos tomamos muy en serio la protección de sus datos personales. Esta Política de Protección de Datos describe cómo recopilamos, utilizamos y protegemos su información personal cuando utiliza nuestros servicios.',
-        'informacion2' : '1. Información que Recopilamos',
-        'texto2' : 'Recopilamos información personal que usted nos proporciona voluntariamente, como su nombre, dirección de correo electrónico, número de teléfono, etc., cuando se registra en nuestros servicios, realiza una compra, se comunica con nosotros o participa en encuestas.',
-        'usoInformacion' : '2. Uso de la Información',
-        'texto3' : 'Utilizamos la información personal que recopilamos para proporcionarle los servicios que solicita, procesar sus transacciones, comunicarnos con usted, personalizar su experiencia y mejorar nuestros servicios.',
-        'compartirInformacion' : '3. Compartir Información',
-        'texto4' : 'No compartiremos su información personal con terceros, excepto cuando sea necesario para proporcionarle los servicios que solicita o cuando estemos legalmente obligados a hacerlo.',
-        'seguridadDatos' : '4. Seguridad de los Datos',
-        'texto5' : 'Tomamos medidas razonables para proteger la información personal que recopilamos contra el acceso no autorizado, la divulgación, la alteración o la destrucción.',
-        'derechos' : '5. Sus Derechos',
-        'texto6' : 'Usted tiene derecho a acceder, corregir y eliminar la información personal que tenemos sobre usted. También puede optar por no recibir comunicaciones de marketing por correo electrónico en cualquier momento.',
-        'cambios' : '6. Cambios a esta Política',
-        'texto7' : 'Nos reservamos el derecho de actualizar o cambiar nuestra Política de Protección de Datos en cualquier momento. Le notificaremos cualquier cambio publicando la nueva Política de Protección de Datos en esta página.',
-        'contacto2' : '7. Contacto',
-        'texto8' : 'Si tiene alguna pregunta sobre nuestra Política de Protección de Datos, por favor contáctenos a tavitcardedeu@hotmail.com.',
-        'copyright' : '© 2023',
-        'privacidad' : 'Privacy — Terms',
-        'sobreNosotros' : 'Sobre Nosotros',
-        'dondeEstamos2' : 'Donde Estamos',
-        'escuelas' : 'Escuelas',
-        'tuEscuela' : 'Tu escuela',
-        'informacion' : 'Informacion',
-        'avisoLegal' : 'Aviso Legal',
-        'politicaPrivacidad' : 'Politica de Privacidad',
-        'politicaCookies' : 'Politica de Cookies',
-        'proteccionDatos' : 'Proteccion de Datos',
-    }
-    return render_template('proteccion_datos_esp.html', data=data)
+@app.route('/setlang/<lang>')
+def set_language(lang):
+    session['lang'] = lang
+    return redirect(request.referrer or '/')
 
 if __name__ == '__main__':
-    app.run(debug=True,port=5000)
+    app.run(debug=True, port=(5000))

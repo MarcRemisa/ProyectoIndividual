@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAVIT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+{% include 'header.html' %}
+
+<div class="cont">
+    <div class="quisom">
+        <h1 class="text-h1">{{data.quiSom}}</h1>
+        <p class="text">{{data.infoquiSom}}</p>
+        <p class="text">{{data.infoquiSom2}}</p>
+        <p class="text">{{data.infoquiSom3}}</p>
+        <p class="text">{{data.infoquiSom4}}</p>
+        <p class="text">{{data.infoquiSom5}}</p>
+    </div>
+
+    <div class="horaris">
+        <h1 class="text-h1">{{data.horaris}}</h1>
+
+        <h2 class="text">{{data.horariEscolar}}</h2>
+        <p class="text">{{data.horariEscolarinfo}}</p>
+
+        <h2 class="text">{{data.HorariMenjador}}</h2>
+        <p class="text">{{data.HorariMenjadorinfo}}</p>
+
+        <h2 class="text">{{data.HorariDiesFestius}}</h2>
+        <p class="text">{{data.HorariDiesFestiusinfo}}</p>
+
+        <h2 class="text">{{data.horariEstiu}}</h2>
+        <p class="text">{{data.horariEstiuinfo}}</p>
+    </div>
+</div>
+
+<h1 class="titulo-in">{{data.instalacio}}</h1>
+<div class="textos">
+    <p class="text">{{data.instalacioinfo}}</p>
+    <p class="text">{{data.instalacioinfo2}}</p>
+    <p class="text">{{data.instalacioinfo3}}</p>
+</div>
+
+<img src="{{ url_for('static', filename='img/img2.jpg') }}" alt="" width="600">
+
+<div class="listas">
+    <div class="lista1">    
+        <h3>{{data.primeraPlanta}}</h3>
+        <ul>
+            <li>{{data.primera1}}</li>
+            <li>{{data.primera2}}</li>
+            <li>{{data.primera3}}</li>
+            <li>{{data.primera4}}</li>
+            <li>{{data.primera5}}</li>
+        </ul>
+    </div>
+    <div class="lista2">
+        <h3>{{data.segonaPlanta}}</h3>
+        <ul>
+            <li>{{data.segona1}}</li>
+            <li>{{data.segona2}}</li>
+            <li>{{data.segona3}}</li>
+            <li>{{data.segona4}}</li>
+            <li>{{data.segona5}}</li>
+        </ul>
+    </div>
+</div>
+
+
+
+{% include 'footer.html' %}

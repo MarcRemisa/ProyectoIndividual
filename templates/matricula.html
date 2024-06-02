@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAVIT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+{% include 'header.html' %}
+
+<div class="contenedor-matricula">
+    <div class="informacion-m1">
+        <h1 class="text-h1-1">{{data.quiEspot}}</h1>
+        <p class="text2-1">{{data.quiEspotinfo}}</p>
+    </div>
+    <div class="informacion-m1">
+        <h1 class="text-h1-1">{{data.quinEshorari}}</h1>
+        <p class="text2-1">{{data.quinEshorariinfo}}</p>
+    </div>
+</div>
+
+<div class="containerM">
+    <form action="#" method="post">
+        <h2 class="text-h1">{{data.formMatricula}}</h2>
+        <label class="text-mat" for="nombre">{{data.nomForm}}</label>
+        <input class="input2" type="text" id="nombre" name="nombre" required>
+
+        <label class="text-mat" for="apellido">{{data.cognomForm}}</label>
+        <input class="input2" type="text" id="apellido" name="apellido" required>
+
+        <label class="text-mat" for="email">{{data.CorreuForm}}</label>
+        <input class="input2" type="email" id="email" name="email" required>
+
+        <label class="text-mat" for="domicilio">{{data.DomiciliForm}}</label>
+        <input class="input2" type="text" id="domicilio" name="domicilio" required>
+
+        <label class="text-mat" for="nombre_hijo">{{data.nomNadoForm}}</label>
+        <input class="input2" type="text" id="nombre_hijo" name="nombre_hijo" required>
+
+        <label class="text-mat" for="apellido_hijo">{{data.cognomNadoForm}}</label>
+        <input class="input2" type="text" id="apellido_hijo" name="apellido_hijo" required>
+
+        <label class="text-mat" for="edad_hijo">{{data.edatNadoForm}}</label>
+        <input class="input2" type="number" id="edad_hijo" name="edad_hijo" required>
+
+        <input class="input2" type="submit" value="Enviar">
+    </form>
+
+    <img class="img-matricula" src="{{ url_for('static', filename='img/matricula.png') }}" alt="">
+</div>
+
+<div class="contenido">
+    <h1 class="centered-text">{{data.onEstem}}</h1>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5963.191186988716!2d2.35451561032749!3d41.64287199466732!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4c93f3379da83%3A0x91124508f221eb6f!2zVMOgdml0!5e0!3m2!1ses!2ses!4v1716910334147!5m2!1ses!2ses" width="1070" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+
+{% include 'footer.html' %}

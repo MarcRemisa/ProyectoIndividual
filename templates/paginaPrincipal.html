@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAVIT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+{% include 'header.html' %}
+
+<div class="slider-container">
+    <div class="slider">
+        <div><img class="imagen-carrusel" src="{{ url_for('static', filename='img/img1.jpg') }}" alt=""></div>
+        <div><img class="imagen-carrusel" src="{{ url_for('static', filename='img/img2.jpg') }}" alt=""></div>
+        <div><img class="imagen-carrusel" src="{{ url_for('static', filename='img/img3.jpg') }}" alt=""></div>
+        <div><img class="imagen-carrusel" src="{{ url_for('static', filename='img/img4.jpg') }}" alt=""></div>
+        <div><img class="imagen-carrusel" src="{{ url_for('static', filename='img/img5.jpg') }}" alt=""></div>
+    </div>
+</div>
+
+<!-- <h1 class="text-h1">{{data.calendari}}</h1> -->
+<div class="centered-text">
+    <h1>{{data.benvinguts}}</h1>
+    <p class="text3">{{data.bentext}}</p>
+</div>
+
+<div class="contenedor-3">
+    <ul>
+        <li>{{data.info1}}</li>
+        <li>{{data.info2}}</li>
+        <li>{{data.info3}}</li>
+        <li>{{data.info4}}</li>
+        <li>{{data.info5}}</li>
+    </ul>
+    <a href="{{ url_for('matricula')}}"><img src="{{ url_for('static', filename='img/matricula.png') }}" alt=""></a>
+</div>
+
+<h1 class="titulo-in">{{data.frase}}</h1>
+
+<div class="contingut">
+    <div class="text-content">
+      <h1 class="text-h1">{{data.escola}}</h1>
+      <p class="text2">{{data.escolainfo1}}</p>
+    </div>
+    <div class="image-container">
+      <img src="{{ url_for('static', filename='img/img-n.png') }}" alt="" width="230">
+    </div>
+  </div>
+
+<h1 class="titulo-1">{{data.opinions}}</h1>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Agrega la biblioteca Slick JS -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.slider').slick({
+            autoplay: true,
+            autoplaySpeed: 2000,
+            arrows: true,
+            dots: false,
+            infinite: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            cssEase: 'linear',
+            speed: 1000,
+            pauseOnHover: false
+        });
+    });
+</script>
+</body>
+
+{% include 'footer.html' %}
+
+</html>
