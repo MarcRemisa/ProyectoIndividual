@@ -56,6 +56,17 @@
 
 <h1 class="titulo-1">{{data.opinions}}</h1>
 
+<div id="datos-contacto">
+    <!-- Itera sobre los datos de contacto para mostrar uno por uno -->
+    {% for contacto in datos_contacto %}
+        <div class="datos-contacto">
+            <p class="opinion1">{{ contacto.nombre }}</p>
+            <p class="opinion2">{{ contacto.mensaje }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Agrega la biblioteca Slick JS -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
@@ -73,6 +84,19 @@
             speed: 1000,
             pauseOnHover: false
         });
+    });
+
+    $(document).ready(function(){
+        var datosContacto = $('.datos-contacto');
+        var index = 0;
+        var contenedorDatos = $('#datos-contacto');
+
+        function actualizarDatos() {
+            index = (index + 1) % datosContacto.length;
+            contenedorDatos.html(datosContacto.eq(index).html());
+        }
+        actualizarDatos();
+        setInterval(actualizarDatos, 5000);
     });
 </script>
 </body>

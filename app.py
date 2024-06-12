@@ -1,8 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+import mysql.connector
 
 app = Flask(__name__)
 
 app.secret_key = 'tu_clave_secreta_aqui'
+
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="marcremisa10",
+    database="tavit"
+)
 
 translations = {
     'ca': {
@@ -31,7 +39,7 @@ translations = {
         'infoquiSom3': 'Estem compromesos a oferir una educació de qualitat que promogui el desenvolupament físic, emocional, social i cognitiu dels nostres alumnes, sent conscients de la importància acompanyar-los en aquest viatge aprenentatge i descoberta.',
         'infoquiSom4': 'Així doncs, a la nostra escola, els nostres educadors estan plenament compromesos amb el benestar i el desenvolupament integral dels infants. Mitjançant activitats adaptades a les seves edats i necessitats, fomentem la curiositat, la creativitat i la autonomia dels nostres alumnes. A través de jocs sensorials, activitats artístiques, música, contes i moments de joc lliure, proporcionem un entorn enriquidor on poden explorar i descobrir el món que els envolta.',
         'infoquiSom5': 'A més, treballem en estreta col·laboració amb les famílies per crear una comunitat educativa cohesionada, on es fomenta la comunicació i la participació activa de tots els membres en el procés educatiu dels nens i nenes. En definitiva, la nostra escola és un espai de aprenentatge acollidor i estimulant, on cada infant és valorat i respectat com a individu únic i amb un gran potencial a explorar.',
-        'horaris': "Els nostres horaris",
+        'horaris2': "Els nostres horaris",
         'horariEscolar': 'Horari Escolar',
         'horariEscolarinfo': 'De Dilluns a Divendres de 7:30 - 18:00',
         'HorariMenjador': 'Horari Menjador',
@@ -74,7 +82,7 @@ translations = {
         'quiEspot':'Qui es pot apuntar?',
         'quiEspotinfo':'-Els nens i nenes de 0 a 3 anys-',
         'quinEshorari':"Quin es l'horari?",
-        'quinEshorariinfo':"-L'horari es de 7:30 a 18-",
+        'quinEshorariinfo':"-L'horari es de 7:30 a 18-00-",
         'formMatricula':'Matricula 2024-2025',
         'nomForm':'Nom',
         'cognomForm':'Cognom',
@@ -291,7 +299,20 @@ translations = {
 def index():
     lang = session.get('lang', 'ca')
     data = translations.get(lang, translations['ca'])
-    return render_template('paginaPrincipal.html', data=data)
+
+    # Recuperar todos los datos de nombre y mensaje de la base de datos
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre, mensaje FROM contacto ORDER BY id DESC")
+    resultados = cursor.fetchall()
+    cursor.close()
+    
+    datos_contacto = []
+    for resultado in resultados:
+        nombre = resultado[0]
+        mensaje = resultado[1]
+        datos_contacto.append({"nombre": nombre, "mensaje": mensaje})
+
+    return render_template('paginaPrincipal.html', data=data, datos_contacto=datos_contacto)
 
 @app.route('/escola')
 def escola():
@@ -303,14 +324,32 @@ def escola():
 def contacte():
     lang = session.get('lang', 'ca')
     data = translations.get(lang, translations['ca'])
+    nombre = ""
+    mensaje = ""
     
     if request.method == 'POST':
         nombre = request.form['nombre']
         email = request.form['email']
         mensaje = request.form['mensaje']
-        return render_template('contacte.html', data=data)
+        
+        cursor = db.cursor()
+        cursor.execute(
+            "INSERT INTO contacto (nombre, email, mensaje) VALUES (%s, %s, %s)",
+            (nombre, email, mensaje)
+        )
+        db.commit()
+        cursor.close()
     else:
-        return render_template('contacte.html', data=data)
+        cursor = db.cursor()
+        cursor.execute("SELECT nombre, mensaje FROM contacto ORDER BY id DESC LIMIT 1")
+        result = cursor.fetchone()
+        if result:
+            nombre = result[0]
+            mensaje = result[1]
+        cursor.close()
+
+    return render_template('contacte.html', data=data, nombre=nombre, mensaje=mensaje)
+
 
 @app.route('/matricula', methods=['GET', 'POST'])
 def matricula():
@@ -325,10 +364,16 @@ def matricula():
         nombre_hijo = request.form['nombre_hijo']
         apellido_hijo = request.form['apellido_hijo']
         edad_hijo = request.form['edad_hijo']
+        
+        cursor = db.cursor()
+        cursor.execute(
+            "INSERT INTO matricula (nombre, apellido, email, domicilio, nombre_hijo, apellido_hijo, edad_hijo) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (nombre, apellido, email, domicilio, nombre_hijo, apellido_hijo, edad_hijo)
+        )
+        db.commit()
+        cursor.close()
 
-        return render_template('matricula.html', data=data)
-    else:
-        return render_template('matricula.html', data=data)
+    return render_template('matricula.html', data=data)
 
 @app.route('/setlang/<lang>')
 def set_language(lang):
