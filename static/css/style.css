@@ -4,7 +4,7 @@ body {
 }
 
 header {
-    background-color: rgb(22, 201, 207);
+    background-color: rgb(21, 168, 173);
     padding: 15px 0;
     display: flex;
     justify-content: center;
@@ -53,7 +53,6 @@ nav ul li a:hover {
     overflow: hidden;
 }
 
-
 .slider {
     width: 100%;
     margin: 0;
@@ -91,33 +90,27 @@ nav ul li a:hover {
     background-color: rgb(214, 255, 249);
 }
 
-.text{
+.text {
     font-family: Arial, Helvetica, sans-serif;
     color: #707070;
-    /* margin-bottom: 5px; */
-    padding-top: -10px;
 }
 
-.text-h1{
+.text-h1 {
     font-family: "Raleway", sans-serif;
 }
 
 .centered-text {
     text-align: center;
-    margin-left: 350px;
-    margin-right: 350px;
     font-family: "Raleway", sans-serif;
     color: #b1812a;
-  }
-  
+}
 
-  .text3 {
+.text3 {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     color: #707070;
-    margin-bottom: 5px;
     font-size: 20px;
-  }
+}
 
 .contenedor-3 {
     display: flex;
@@ -125,25 +118,24 @@ nav ul li a:hover {
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
     color: #298dff;
-    margin-bottom: 5px;
     font-size: 20px;
-    }
+}
 
-    ul {
+ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     margin-right: 100px;
     font-family: Arial, Helvetica, sans-serif;
-    }
+}
 
-    img {
+img {
     width: 300px;
 }
 
-
-.titulo-in, .titulo-1 {
-    background-color: rgb(22, 201, 207);
+.titulo-in,
+.titulo-1 {
+    background-color: rgb(21, 168, 173);
     height: 80px;
     font-family: "Sniglet", system-ui;
     font-style: normal;
@@ -155,27 +147,20 @@ nav ul li a:hover {
     justify-content: center;
 }
 
-.titulo-in {
-    background-color: rgb(21, 168, 173);
-}
-
-.titulo-1 {
-    background-color: rgb(134, 157, 158);
-}
-
 .textos {
     width: 50%;
     float: left;
     margin-left: 20px;
 }
 
-.listas{
+.listas {
     display: flex;
     width: 50%;
     margin-top: -200px;
 }
 
-.lista1, .lista2{
+.lista1,
+.lista2 {
     margin-right: 20px;
 }
 
@@ -188,7 +173,6 @@ nav ul li a:hover {
     padding: 20px;
 }
 
-
 input[type="text"],
 input[type="email"],
 textarea {
@@ -198,11 +182,12 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
 textarea {
     height: 120px;
 }
 
-.botonEnviar{
+.botonEnviar {
     color: white;
     border-radius: 5px;
     border-color: #707070;
@@ -217,7 +202,8 @@ textarea {
     display: flex;
 }
 
-.quisom, .horaris {
+.quisom,
+.horaris {
     flex: 1;
     margin-right: 20px;
 }
@@ -234,15 +220,15 @@ textarea {
 .contingut {
     display: flex;
     justify-content: center;
-  }
+}
 
-  .text-content,
-  .image-container {
+.text-content,
+.image-container {
     flex: 1;
     text-align: center;
-  }
+}
 
-  .text2 {
+.text2 {
     text-align: justify;
     margin-left: 38.5%;
     font-family: Arial, Helvetica, sans-serif;
@@ -251,12 +237,12 @@ textarea {
     font-size: 20px;
 }
 
-.plantaT{
+.plantaT {
     font-family: "Raleway", sans-serif;
     color: #b1812a;
 }
 
-.planta{
+.planta {
     font-family: Arial, Helvetica, sans-serif;
     color: #333;
 }
@@ -278,30 +264,42 @@ textarea {
 #datos-contacto {
     text-align: center;
     background-color: rgb(77, 151, 236);
+    /* Establece el fondo azul */
     padding: 20px;
+    /* Añade espacio alrededor del contenido */
     border-radius: 4px;
     border: 1px solid rgb(87, 87, 87);
+    /* Agrega un borde de 2px sólido negro */
     width: 60%;
+    /* Establece el ancho del contenedor al 60% del ancho de su contenedor padre */
     margin: 0 auto;
     margin-bottom: 20px;
+    /* Centra horizontalmente el contenedor */
 }
+
 .datos-contacto {
     display: inline-block;
     text-align: left;
+    /* Para mantener el texto alineado a la izquierda dentro de cada div */
     padding: 10px;
+    /* Añade espacio alrededor de cada div */
     background-color: white;
+    /* Establece un fondo blanco para los divs */
     border: 1px solid black;
+    /* Agrega un borde de 1px sólido negro a cada div */
     border-radius: 5px;
+    /* Añade esquinas redondeadas al borde */
     margin-bottom: 10px;
+    /* Añade espacio entre cada div */
 }
 
-.opinion1{
+.opinion1 {
     font-size: 17px;
     color: white;
     font-family: "Sniglet", system-ui;
 }
 
-.opinion2{
+.opinion2 {
     font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -329,7 +327,7 @@ label {
     box-sizing: border-box;
 }
 
-.text-mat{
+.text-mat {
     font-family: Arial, Helvetica, sans-serif;
     color: #707070;
     margin-bottom: 5px;
@@ -375,12 +373,12 @@ label {
     font-size: 14px;
 }
 
-.text-h1-1{
+.text-h1-1 {
     font-family: "Raleway", sans-serif;
     color: #4CAF50;
 }
 
-.temperatura{
+.temperatura {
     font-size: 30px;
 }
 
@@ -388,6 +386,9 @@ footer {
     background-color: #333;
     color: #fff;
     padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .footer-container {
